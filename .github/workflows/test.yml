@@ -16,6 +16,11 @@ jobs:
           distribution: temurin
           java-version: '11'
           cache: gradle
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v2
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: ${{ runner.os }}-flutter
       - name: Setup Flutter stable
         uses: subosito/flutter-action@v1
         with:
