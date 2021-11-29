@@ -1,3 +1,9 @@
+## 0.3.0 (2021-11-29)
+
+### Feat
+
+- **main**: reduce padding in arrival list
+
 ## 0.2.1 (2021-11-29)
 
 ### Perf
