@@ -44,6 +44,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: github.ref == 'refs/heads/main'
         with:
-          files: build/app/outputs/apk/app-release.apk
+          files: build/app/outputs/flutter-apk/app-release.apk
           body_path: body.md
           tag_name: ${{ env.REVISION }}
