@@ -30,24 +30,22 @@ jobs:
         run: flutter analyze
       - name: Run tests
         run: flutter test
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    needs: test
-    steps:
       - name: Clone repo
         uses: actions/checkout@v2
+        if: github.ref == 'refs/heads/main'
       - name: commitizen
         uses: commitizen-tools/commitizen-action@0.10.0
+        if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           changelog_increment_filename: body.md
           branch: main
       - name: Build apk
+        if: github.ref == 'refs/heads/main'
         run: flutter build apk
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
+        if: github.ref == 'refs/heads/main'
         with:
           files: build/app/outputs/apk/app-release.apk
           body_path: body.md
