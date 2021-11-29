@@ -34,7 +34,10 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    needs: test
     steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
       - name: commitizen
         uses: commitizen-tools/commitizen-action@0.10.0
         with:
