@@ -17,7 +17,6 @@ dependencies:
   flutter_cache_manager: ^3.2.0
   dropdown_search: ^2.0.1
   fuzzy: ^0.4.0-nullsafety.0
-  fluttertoast: ^8.0.8
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
