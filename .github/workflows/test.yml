@@ -1,10 +1,11 @@
 ---
 on:
   push:
-
+    tags:
+      - '*'
 jobs:
-  releases:
-    name: Test
+  test:
+    name: Run tests
     runs-on: ubuntu-latest
     steps:
       - name: Clone repo
@@ -25,3 +26,23 @@ jobs:
         run: flutter analyze
       - name: Run tests
         run: flutter test
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: commitizen
+        uses: commitizen-tools/commitizen-action@0.10.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          changelog_increment_filename: body.md
+          branch: main
+      - name: Build apk
+        run: flutter build apk
+      - name: Create GitHub release
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/app/outputs/apk/app-release.apk
+          body_path: body.md
+          tag_name: ${{ env.REVISION }}
