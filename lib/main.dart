@@ -303,7 +303,7 @@ class _ArrivalsScreenStopBodyState extends State<ArrivalsScreenStopBody> {
             return const Center(child: CircularProgressIndicator());
           } else {
             return Container(
-                padding: const EdgeInsets.all(40.0),
+                padding: const EdgeInsets.all(10.0),
                 child: RefreshIndicator(
                   onRefresh: () async {
                     List<VehicleEstimation> vehicleEstimations =
