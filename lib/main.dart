@@ -206,17 +206,15 @@ class ArrivalsScreenBody extends StatelessWidget {
                       if (stop == null) {
                         return Container();
                       }
-                      return Container(
-                          child: ListTile(
-                              title: Text('${stop["name"]} (${stop["id"]})')));
+                      return ListTile(
+                          title: Text('${stop["name"]} (${stop["id"]})'));
                     },
                     popupItemBuilder: (BuildContext context, dynamic stop, _) {
                       if (stop == null) {
                         return Container();
                       }
-                      return Container(
-                          child: ListTile(
-                              title: Text('${stop["name"]} (${stop["id"]})')));
+                      return ListTile(
+                          title: Text('${stop["name"]} (${stop["id"]})'));
                     },
                     isFilteredOnline: true,
                     onFind: (String? filter) async {
