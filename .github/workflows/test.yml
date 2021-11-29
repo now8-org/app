@@ -1,8 +1,7 @@
 ---
 on:
   push:
-    tags:
-      - '*'
+
 jobs:
   test:
     name: Run tests
