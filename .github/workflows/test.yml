@@ -1,0 +1,27 @@
+---
+on:
+  push:
+
+jobs:
+  releases:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+      - name: Setup Java 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: temurin
+          java-version: '11'
+          cache: gradle
+      - name: Setup Flutter stable
+        uses: subosito/flutter-action@v1
+        with:
+          channel: stable
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Analyze the code
+        run: flutter analyze
+      - name: Run tests
+        run: flutter test
