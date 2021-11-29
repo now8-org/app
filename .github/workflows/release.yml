@@ -15,6 +15,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '11'
+          cache: gradle
       - name: Setup Flutter stable
         uses: subosito/flutter-action@v1
         with:
