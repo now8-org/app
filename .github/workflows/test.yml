@@ -30,9 +30,6 @@ jobs:
         run: flutter analyze
       - name: Run tests
         run: flutter test
-      - name: Clone repo
-        uses: actions/checkout@v2
-        if: github.ref == 'refs/heads/main'
       - name: commitizen
         uses: commitizen-tools/commitizen-action@0.10.0
         if: github.ref == 'refs/heads/main'
