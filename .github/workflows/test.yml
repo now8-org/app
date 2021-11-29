@@ -45,7 +45,6 @@ jobs:
       - name: Build apk
         run: flutter build apk
       - name: Create GitHub release
-      - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: build/app/outputs/apk/app-release.apk
