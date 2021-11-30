@@ -3,49 +3,78 @@ on:
   push:
 
 jobs:
-  test:
-    name: Run tests
+  main:
+    name: Main workflow
     runs-on: ubuntu-latest
     steps:
       - name: Clone repo
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
       - name: Setup Java 11
         uses: actions/setup-java@v2
         with:
           distribution: temurin
           java-version: '11'
           cache: gradle
+
       - name: Cache Flutter dependencies
         uses: actions/cache@v2
         with:
           path: /opt/hostedtoolcache/flutter
           key: ${{ runner.os }}-flutter
+
       - name: Setup Flutter stable
         uses: subosito/flutter-action@v1
         with:
           channel: stable
+
       - name: Install dependencies
-        run: flutter pub get
-      - name: Analyze the code
-        run: flutter analyze
+        run: make install
+
+      - name: Check lint
+        run: make lint
+
       - name: Run tests
-        run: flutter test
+        run: make test
+
+      # Create release if in main branch
       - name: commitizen
-        uses: commitizen-tools/commitizen-action@0.10.0
         if: github.ref == 'refs/heads/main'
+        uses: commitizen-tools/commitizen-action@0.10.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           changelog_increment_filename: body.md
           branch: main
+
       - name: Build apk
         if: github.ref == 'refs/heads/main'
-        run: flutter build apk
+        run: make build-apk
+
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v1
         if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v1
         with:
           files: build/app/outputs/flutter-apk/app-release.apk
           body_path: body.md
           tag_name: ${{ env.REVISION }}
+
+      # Deploy web
+      - name: Build web
+        if: github.ref == 'refs/heads/main'
+        run: make build-web
+
+      - name: Install SSH Key
+        if: github.ref == 'refs/heads/main'
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+      - name: Deploy with rsync
+        if: github.ref == 'refs/heads/main'
+        run: |-
+          rsync -Pavh --delete \
+          ./build/web/ \
+          ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST}}:/var/www/now8/
