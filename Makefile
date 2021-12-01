@@ -75,3 +75,17 @@ pull:
 
 .PHONY: full
 full: install pull clean update lint test build
+
+
+.PHONY: icons
+icons:
+	@echo "--------------------------------------"
+	@echo "- Generate icons from icons/logo.svg -"
+	@echo "--------------------------------------"
+	inkscape -w 1024 -h 1024 icons/logo.svg -o icons/logo.png
+	flutter pub run flutter_launcher_icons:main
+	inkscape -w 32 -h 32 icons/logo.svg -o web/favicon.png
+	inkscape -w 192 -h 192 icons/logo.svg -o web/icons/Icon-192.png
+	inkscape -w 192 -h 192 icons/logo.svg -o web/icons/Icon-maskable-192.png
+	inkscape -w 512 -h 512 icons/logo.svg -o web/icons/Icon-512.png
+	inkscape -w 512 -h 512 icons/logo.svg -o web/icons/Icon-maskable-512.png
