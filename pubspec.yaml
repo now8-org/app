@@ -36,3 +36,4 @@ flutter_icons:
   android: true
   ios: true
   remove_alpha_ios: true
+  adaptive_icon_background: '#1976D2'
