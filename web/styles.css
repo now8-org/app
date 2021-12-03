@@ -9,10 +9,10 @@
     font-size: 10px;
     position: relative;
     text-indent: -9999em;
-    border-top: 1.1em solid #BBDEFB;
-    border-right: 1.1em solid #BBDEFB;
-    border-bottom: 1.1em solid #BBDEFB;
-    border-left: 1.1em solid #2196F3;
+    border-top: 1.1em solid #baddf9;
+    border-right: 1.1em solid #baddf9;
+    border-bottom: 1.1em solid #baddf9;
+    border-left: 1.1em solid #104068;
     -webkit-transform: translateZ(0);
     -ms-transform: translateZ(0);
     transform: translateZ(0);
