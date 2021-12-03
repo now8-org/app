@@ -1,3 +1,9 @@
+## 0.5.1 (2021-12-03)
+
+### Fix
+
+- **pubspec.yaml**: fix fuzzy version
+
 ## 0.5.0 (2021-12-03)
 
 ### Feat
