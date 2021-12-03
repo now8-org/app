@@ -1,19 +1,89 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="500" height="500" viewBox="0 0 500 500" xml:space="preserve">
-<desc>Created with Fabric.js 4.6.0</desc>
-<defs>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="500"
+   height="500"
+   viewBox="0 0 500 500"
+   xml:space="preserve"
+   id="svg18"
+   sodipodi:docname="logo.svg"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"><metadata
+   id="metadata22"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1916"
+   inkscape:window-height="1022"
+   id="namedview20"
+   showgrid="false"
+   inkscape:zoom="1.762"
+   inkscape:cx="128.26334"
+   inkscape:cy="250"
+   inkscape:window-x="0"
+   inkscape:window-y="26"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="TLQxZ2Gl9Q8bcpPe-suSC" />
+<desc
+   id="desc2">Created with Fabric.js 4.6.0</desc>
+<defs
+   id="defs4">
 </defs>
-<g transform="matrix(1 0 0 1 250 250)" id="TLQxZ2Gl9Q8bcpPe-suSC"  >
-<path style="stroke: rgb(119,193,160); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(16,64,104); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-250, -250)" d="M 0 106.06602 C 0 47.487379999999995 47.48737 0 106.06602 0 L 393.93399 0 L 393.93399 0 C 452.51263 0 500.00001 47.48737 500.00001 106.06602 L 500.00001 393.93399 L 500.00001 393.93399 C 500.00001 452.51263 452.51264 500.00001 393.93399 500.00001 L 106.06601999999998 500.00001 L 106.06601999999998 500.00001 C 47.48737999999998 500.00001 -1.4210854715202004e-14 452.51264 -1.4210854715202004e-14 393.93399 z" stroke-linecap="round" />
+<g
+   transform="matrix(1 0 0 1 250 250)"
+   id="TLQxZ2Gl9Q8bcpPe-suSC">
+<path
+   style="stroke: rgb(119,193,160); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(16,64,104); fill-rule: nonzero; opacity: 1;"
+   vector-effect="non-scaling-stroke"
+   transform=" translate(-250, -250)"
+   d="M 0 106.06602 C 0 47.487379999999995 47.48737 0 106.06602 0 L 393.93399 0 L 393.93399 0 C 452.51263 0 500.00001 47.48737 500.00001 106.06602 L 500.00001 393.93399 L 500.00001 393.93399 C 500.00001 452.51263 452.51264 500.00001 393.93399 500.00001 L 106.06601999999998 500.00001 L 106.06601999999998 500.00001 C 47.48737999999998 500.00001 -1.4210854715202004e-14 452.51264 -1.4210854715202004e-14 393.93399 z"
+   stroke-linecap="round"
+   id="path6" />
 </g>
-<g transform="matrix(1 0 0 1 140 380)" id="XleWUGi26ENa6e3gBSWRk"  >
-<path style="stroke: rgb(209,61,179); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-40, -40)" d="M 40 0 C 62.08 0 80 17.92 80 40 C 80 62.08 62.08 80 40 80 C 17.92 80 0 62.08 0 40 C 0 17.92 17.92 0 40 0 z" stroke-linecap="round" />
+<g
+   transform="matrix(1 0 0 1 140 380)"
+   id="XleWUGi26ENa6e3gBSWRk">
+<path
+   style="stroke: rgb(209,61,179); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;"
+   vector-effect="non-scaling-stroke"
+   transform=" translate(-40, -40)"
+   d="M 40 0 C 62.08 0 80 17.92 80 40 C 80 62.08 62.08 80 40 80 C 17.92 80 0 62.08 0 40 C 0 17.92 17.92 0 40 0 z"
+   stroke-linecap="round"
+   id="path9" />
 </g>
-<g transform="matrix(3.4 0 0 1.6 250 160)" id="_DwjG1F4-jqFANjQJFVxC"  >
-<path style="stroke: rgb(236,133,80); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(187,222,251); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(0, 0)" d="M -50 -21.54917 C -50 -37.26213 -44.00571 -50 -36.61137 -50 L 36.61137 -50 L 36.61137 -50 C 44.005700000000004 -50 50 -37.26213 50 -21.54917 L 50 21.549159999999997 L 50 21.549159999999997 C 50 37.262119999999996 44.00571 49.99999 36.61137 49.99999 L -36.61137 49.99999 L -36.61137 49.99999 C -44.005700000000004 49.99999 -50 37.262119999999996 -50 21.549159999999997 z" stroke-linecap="round" />
+<g
+   transform="matrix(3.4 0 0 1.6 250 160)"
+   id="_DwjG1F4-jqFANjQJFVxC">
+<path
+   style="stroke: rgb(236,133,80); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(187,222,251); fill-rule: nonzero; opacity: 1;"
+   vector-effect="non-scaling-stroke"
+   transform=" translate(0, 0)"
+   d="M -50 -21.54917 C -50 -37.26213 -44.00571 -50 -36.61137 -50 L 36.61137 -50 L 36.61137 -50 C 44.005700000000004 -50 50 -37.26213 50 -21.54917 L 50 21.549159999999997 L 50 21.549159999999997 C 50 37.262119999999996 44.00571 49.99999 36.61137 49.99999 L -36.61137 49.99999 L -36.61137 49.99999 C -44.005700000000004 49.99999 -50 37.262119999999996 -50 21.549159999999997 z"
+   stroke-linecap="round"
+   id="path12" />
 </g>
-<g transform="matrix(1 0 0 1 360 380)" id="BWHCyZs2ob6DnJuwkqaoB"  >
-<path style="stroke: rgb(209,61,179); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-40, -40)" d="M 40 0 C 62.08 0 80 17.92 80 40 C 80 62.08 62.08 80 40 80 C 17.92 80 0 62.08 0 40 C 0 17.92 17.92 0 40 0 z" stroke-linecap="round" />
+<g
+   transform="matrix(1 0 0 1 360 380)"
+   id="BWHCyZs2ob6DnJuwkqaoB">
+<path
+   style="stroke: rgb(209,61,179); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;"
+   vector-effect="non-scaling-stroke"
+   transform=" translate(-40, -40)"
+   d="M 40 0 C 62.08 0 80 17.92 80 40 C 80 62.08 62.08 80 40 80 C 17.92 80 0 62.08 0 40 C 0 17.92 17.92 0 40 0 z"
+   stroke-linecap="round"
+   id="path15" />
 </g>
 </svg>
