@@ -87,6 +87,6 @@ icons:
 	flutter pub run flutter_launcher_icons:main
 	inkscape -w 32 -h 32 icons/logo.svg -o web/favicon.png
 	inkscape -w 192 -h 192 icons/logo.svg -o web/icons/Icon-192.png
-	convert /tmp/1200.png -resize 150x150 -gravity center -background "rgba(0,0,0,0)" -extent 192x192 web/icons/Icon-maskable-192.png
+	convert icons/logo.png -resize 140x140 -gravity center -background "#104068" -extent 192x192 web/icons/Icon-maskable-192.png
 	inkscape -w 512 -h 512 icons/logo.svg -o web/icons/Icon-512.png
-	convert /tmp/1200.png -resize 400x400 -gravity center -background "rgba(0,0,0,0)" -extent 512x512 web/icons/Icon-maskable-512.png
+	convert icons/logo.png -resize 400x400 -gravity center -background "#104068" -extent 512x512 web/icons/Icon-maskable-512.png
