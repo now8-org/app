@@ -13,8 +13,8 @@ class ArrivalsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ScreenTemplate(
-      body: ArrivalsScreenBody(),
+    return ScreenTemplate(
+      body: const ArrivalsScreenBody(),
       appBarTitle: "Arrivals",
     );
   }
@@ -26,30 +26,52 @@ class ArrivalsScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: stops(),
+        future: stops(Provider.of<CurrentCityProvider>(context)
+            .city
+            .toString()
+            .split('.')
+            .last),
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           } else {
             return Column(children: [
+              Padding(
+                  padding: const EdgeInsets.only(top: 20, left: 20),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Stop:",
+                        style: Theme.of(context).textTheme.headline5,
+                      ))),
               Container(
                 padding: const EdgeInsets.all(20.0),
                 child: DropdownSearch<dynamic>(
                     mode: Mode.BOTTOM_SHEET,
+                    dropdownSearchDecoration: InputDecoration(
+                      hintText: "Select a stop...",
+                      hintStyle: Theme.of(context).textTheme.bodyText1,
+                    ),
                     showSearchBox: true,
                     dropdownBuilder: (BuildContext context, dynamic stop) {
                       if (stop == null) {
                         return Container();
                       }
                       return ListTile(
-                          title: Text('${stop["name"]} (${stop["id"]})'));
+                        leading: const Icon(Icons.directions_bus_filled),
+                        title: Text(stop["name"]),
+                        trailing: Text(stop["id"]),
+                      );
                     },
                     popupItemBuilder: (BuildContext context, dynamic stop, _) {
                       if (stop == null) {
                         return Container();
                       }
                       return ListTile(
-                          title: Text('${stop["name"]} (${stop["id"]})'));
+                        leading: const Icon(Icons.directions_bus_filled),
+                        title: Text(stop["name"]),
+                        trailing: Text(stop["id"]),
+                      );
                     },
                     isFilteredOnline: true,
                     onFind: (String? filter) async {
@@ -190,38 +212,44 @@ class ArrivalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
         child: Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(
-                  flex: 3,
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(line,
-                          style: Theme.of(context).textTheme.headline5)),
-                ),
+                    flex: 3,
+                    child: Row(children: [
+                      const Icon(Icons.directions_bus),
+                      Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(line,
+                              style: Theme.of(context).textTheme.headline5)),
+                    ])),
                 ...estimations
-                    .map((estimation) => Expanded(
+                    .map(
+                      (estimation) => Expanded(
                           flex: 2,
-                          child: Card(
-                              child: Column(
+                          child: Column(
                             children: [
                               Container(
-                                child:
-                                    Text(DateFormat('kk:mm').format(estimation),
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                        )),
+                                child: Text(
+                                  DateFormat('kk:mm').format(estimation),
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                                padding: const EdgeInsets.all(5.0),
+                              ),
+                              Container(
+                                child: Text(
+                                  "-",
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
                                 padding: const EdgeInsets.all(5.0),
                               ),
                             ],
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                           )),
-                        ))
+                    )
                     .toList()
               ],
             )));

@@ -15,7 +15,7 @@ class WelcomeScreenBody extends StatelessWidget {
           Container(
               margin: const EdgeInsets.only(top: 40),
               child: SelectableText(
-                "now8 is a public transport app that provides "
+                "now8 (no wait) is a public transport app that provides "
                 "improved vehicle arrival time estimations "
                 "using Machine Learning.",
                 style: Theme.of(context).textTheme.headline6!,
@@ -40,8 +40,8 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ScreenTemplate(
-      body: WelcomeScreenBody(),
+    return ScreenTemplate(
+      body: const WelcomeScreenBody(),
       appBarTitle: "now8",
     );
   }

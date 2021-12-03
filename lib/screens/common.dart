@@ -31,9 +31,9 @@ class ScreenTemplate extends StatelessWidget {
   final String appBarTitle;
   final bool showDrawer;
 
-  final Widget drawer = const DefaultDrawer();
+  final Widget drawer = DefaultDrawer();
 
-  const ScreenTemplate(
+  ScreenTemplate(
       {Key? key,
       required this.body,
       required this.appBarTitle,
@@ -49,12 +49,26 @@ class ScreenTemplate extends StatelessWidget {
       ),
       drawer: showDrawer ? drawer : null,
       body: body,
+      backgroundColor: Theme.of(context).colorScheme.background,
     );
   }
 }
 
+class RouteInfo {
+  final String title;
+  final String route;
+  final IconData iconData;
+
+  RouteInfo({required this.title, required this.route, required this.iconData});
+}
+
 class DefaultDrawer extends StatelessWidget {
-  const DefaultDrawer({Key? key}) : super(key: key);
+  final List<RouteInfo> routeInfos = [
+    RouteInfo(
+        title: "Arrivals", route: "/arrivals", iconData: Icons.departure_board)
+  ];
+
+  DefaultDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,18 +77,40 @@ class DefaultDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+              decoration:
+                  BoxDecoration(color: Theme.of(context).colorScheme.secondary),
               child: const Center(child: CityDropdown())),
-          ListTile(
-            title: const Text("Arrivals"),
-            onTap: ModalRoute.of(context)?.settings.name == "/arrivals"
-                ? null
-                : () {
-                    Navigator.of(context).pushNamed('/arrivals');
-                  },
-          ),
+          ...routeInfos
+              .map((routeInfo) => DrawerTile(routeInfo: routeInfo))
+              .toList(),
         ],
       ),
+    );
+  }
+}
+
+class DrawerTile extends StatelessWidget {
+  final RouteInfo routeInfo;
+
+  const DrawerTile({Key? key, required this.routeInfo}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Row(children: [
+        Icon(routeInfo.iconData),
+        Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Text(
+              routeInfo.title,
+              style: Theme.of(context).textTheme.subtitle1,
+            ))
+      ]),
+      onTap: ModalRoute.of(context)?.settings.name == routeInfo.route
+          ? null
+          : () {
+              Navigator.of(context).pushNamed(routeInfo.route);
+            },
     );
   }
 }
