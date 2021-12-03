@@ -2,7 +2,7 @@
 name: now8
 description: Improved public transport arrival time estimations using Machine Learning.
 publish_to: none
-version: 0.4.0
+version: 0.5.0
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -16,7 +16,7 @@ dependencies:
   intl: ^0.17.0
   flutter_cache_manager: ^3.2.0
   dropdown_search: ^2.0.1
-  fuzzy: ^0.4.0-nullsafety.0
+  fuzzy: ^0.5.0-nullsafety.0
   cupertino_icons: ^1.0.2
   flutter_launcher_icons: ^0.9.2
 

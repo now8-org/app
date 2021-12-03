@@ -1,3 +1,9 @@
+## 0.5.0 (2021-12-03)
+
+### Feat
+
+- add description and keywords
+
 ## 0.4.0 (2021-12-01)
 
 ### Feat
