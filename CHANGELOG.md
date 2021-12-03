@@ -1,3 +1,9 @@
+## 0.6.0 (2021-12-03)
+
+### Feat
+
+- appearance improvements
+
 ## 0.5.1 (2021-12-03)
 
 ### Fix
