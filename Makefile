@@ -8,7 +8,7 @@ install:
 	@echo "---------------------------"
 	flutter pub get
 	flutter pub global activate dartdoc
-	pip install pre-commit
+	pip install --user pre-commit commitizen
 	pre-commit install
 
 .PHONY: update
