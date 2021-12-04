@@ -37,7 +37,7 @@ jobs:
         run: pre-commit uninstall
 
       - name: Check lint
-        run: make lint
+        run: SKIP=no-commit-to-branch make lint
 
       - name: Run tests
         run: make test
