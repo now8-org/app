@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the generateArrivalCards function from the arrivals library, for the Dart programming language.">
+  <title>generateArrivalCards function - arrivals library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">now8</a></li>
+    <li><a href="../screens_arrivals/screens_arrivals-library.html">arrivals</a></li>
+    <li class="self-crumb">generateArrivalCards function</li>
+  </ol>
+  <div class="self-name">generateArrivalCards</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-function">generateArrivalCards</span> function 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+ 
+</h1></div>
+
+    <section class="multi-line-signature">
+        
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../screens_arrivals/ArrivalCard-class.html">ArrivalCard</a></span>&gt;</span></span>
+<span class="name ">generateArrivalCards</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="generateArrivalCards-param-vehicleEstimations"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../domain/VehicleEstimation-class.html">VehicleEstimation</a></span>&gt;</span></span> <span class="parameter-name">vehicleEstimations</span></span></li>
+</ol>)
+
+    </section>
+    
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">List&lt;ArrivalCard&gt; generateArrivalCards(
+    List&lt;VehicleEstimation&gt; vehicleEstimations) {
+  const int nEstimations = 3;
+  List&lt;ArrivalCard&gt; arrivalCards = [];
+  Map&lt;String, List&lt;DateTime&gt;&gt; cardContent = {};
+
+  for (VehicleEstimation vehicleEstimation in vehicleEstimations) {
+    cardContent.putIfAbsent(vehicleEstimation.vehicle.line.id, () =&gt; []);
+    cardContent.update(vehicleEstimation.vehicle.line.id,
+        (value) =&gt; [...value, vehicleEstimation.estimation.estimation]);
+  }
+
+  cardContent.forEach((key, value) {
+    arrivalCards.add(
+        ArrivalCard(line: key, estimations: value.take(nEstimations).toList()));
+  });
+
+  return arrivalCards;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">now8</a></li>
+  <li><a href="../screens_arrivals/screens_arrivals-library.html">arrivals</a></li>
+  <li class="self-crumb">generateArrivalCards function</li>
+</ol>
+
+
+    <h5>arrivals library</h5>
+    <ol>
+  <li class="section-title"><a href="../screens_arrivals/screens_arrivals-library.html#classes">Classes</a></li>
+  <li><a href="../screens_arrivals/ArrivalCard-class.html">ArrivalCard</a></li>
+  <li><a href="../screens_arrivals/ArrivalsScreen-class.html">ArrivalsScreen</a></li>
+  <li><a href="../screens_arrivals/ArrivalsScreenBody-class.html">ArrivalsScreenBody</a></li>
+  <li><a href="../screens_arrivals/ArrivalsScreenStop-class.html">ArrivalsScreenStop</a></li>
+  <li><a href="../screens_arrivals/ArrivalsScreenStopBody-class.html">ArrivalsScreenStopBody</a></li>
+
+
+
+
+
+  <li class="section-title"><a href="../screens_arrivals/screens_arrivals-library.html#functions">Functions</a></li>
+  <li><a href="../screens_arrivals/generateArrivalCards.html">generateArrivalCards</a></li>
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-left-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    now8
+      0.6.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+
