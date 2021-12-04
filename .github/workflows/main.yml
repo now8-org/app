@@ -81,3 +81,15 @@ jobs:
           rsync -Pavh --delete \
           ./build/web/ \
           ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST}}:/var/www/now8/
+
+      # Deploy docs
+      - name: Build docs
+        if: github.ref == 'refs/heads/main'
+        run: make docs
+
+      - name: Deploy docs
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doc/api

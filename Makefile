@@ -7,6 +7,7 @@ install:
 	@echo "- Installing dependencies -"
 	@echo "---------------------------"
 	flutter pub get
+	flutter pub global activate dartdoc
 	pip install pre-commit
 	pre-commit install
 
@@ -90,3 +91,10 @@ icons:
 	convert icons/logo.png -resize 140x140 -gravity center -background "#104068" -extent 192x192 web/icons/Icon-maskable-192.png
 	inkscape -w 512 -h 512 icons/logo.svg -o web/icons/Icon-512.png
 	convert icons/logo.png -resize 400x400 -gravity center -background "#104068" -extent 512x512 web/icons/Icon-maskable-512.png
+
+.PHONY: docs
+docs:
+	@echo "-----------------"
+	@echo "- Generate docs -"
+	@echo "-----------------"
+	flutter pub global run dartdoc:dartdoc
