@@ -42,7 +42,7 @@ class ArrivalsScreenBody extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "Stop:",
-                        style: Theme.of(context).textTheme.headline5,
+                        style: Theme.of(context).textTheme.headline6,
                       ))),
               Container(
                 padding: const EdgeInsets.all(20.0),
