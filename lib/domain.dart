@@ -1,12 +1,30 @@
 enum City { madrid }
 
+enum TransportType {
+  tram,
+  metro,
+  rail,
+  bus,
+  ferry,
+  cableTram,
+  aerialLift,
+  funicular,
+  intercityBus,
+  urbanBus,
+  undefined10,
+  trolleyBus,
+  monorail
+}
+
 class Stop {
   final String id;
+  final String? code;
   final String? transportType;
   final String? name;
 
   Stop({
     required this.id,
+    this.code,
     this.transportType,
     this.name,
   });
@@ -14,7 +32,7 @@ class Stop {
 
 class Line {
   final String id;
-  final String transportType;
+  final TransportType transportType;
   final String name;
 
   Line({

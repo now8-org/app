@@ -4,9 +4,12 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:now8/domain.dart';
 
-Future<List<dynamic>> stops(String cityName) async {
+const String apiBaseUrl = 'https://api.now8.systems/';
+const String apiVersion = 'v4';
+
+Future<dynamic> stops(String cityName) async {
   File stopsFile = await DefaultCacheManager()
-      .getSingleFile("https://api.now8.systems/$cityName/v3/stop");
+      .getSingleFile("$apiBaseUrl/$cityName/$apiVersion/stop");
   String stopsJson = await stopsFile.readAsString();
 
   return jsonDecode(stopsJson);
@@ -14,8 +17,8 @@ Future<List<dynamic>> stops(String cityName) async {
 
 Future<List<VehicleEstimation>> fetchVehicleEstimations(
     String cityName, String stopCode) async {
-  final response = await http.get(Uri.parse(
-      'https://api.now8.systems/$cityName/v3/stop/$stopCode/estimation'));
+  final response = await http.get(
+      Uri.parse('$apiBaseUrl/$cityName/$apiVersion/stop/$stopCode/estimation'));
 
   if (response.statusCode == 200) {
     List<dynamic> json = jsonDecode(response.body);
@@ -27,8 +30,8 @@ Future<List<VehicleEstimation>> fetchVehicleEstimations(
               id: vehicleEstimation['vehicle']!['id'],
               line: Line(
                 id: vehicleEstimation['vehicle']!['line']!['id'],
-                transportType: vehicleEstimation['vehicle']!['line']
-                    ['transport_type'],
+                transportType: TransportType.values[
+                    vehicleEstimation['vehicle']!['line']['transport_type']],
                 name: vehicleEstimation['vehicle']!['line']['name'],
               ),
               name: vehicleEstimation['vehicle']!['name']),

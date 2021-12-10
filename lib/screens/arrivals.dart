@@ -31,10 +31,13 @@ class ArrivalsScreenBody extends StatelessWidget {
             .toString()
             .split('.')
             .last),
-        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           } else {
+            List<dynamic> stops = [];
+            snapshot.data
+                .forEach((key, value) => stops.add({"id": key}..addAll(value)));
             return Column(children: [
               Padding(
                   padding: const EdgeInsets.only(top: 20, left: 20),
@@ -60,7 +63,7 @@ class ArrivalsScreenBody extends StatelessWidget {
                       return ListTile(
                         leading: const Icon(Icons.directions_bus_filled),
                         title: Text(stop["name"]),
-                        trailing: Text(stop["id"]),
+                        trailing: Text(stop["code"]),
                       );
                     },
                     popupItemBuilder: (BuildContext context, dynamic stop, _) {
@@ -70,23 +73,23 @@ class ArrivalsScreenBody extends StatelessWidget {
                       return ListTile(
                         leading: const Icon(Icons.directions_bus_filled),
                         title: Text(stop["name"]),
-                        trailing: Text(stop["id"]),
+                        trailing: Text(stop["code"]),
                       );
                     },
                     isFilteredOnline: true,
                     onFind: (String? filter) async {
-                      final fuzzyStops = Fuzzy(snapshot.data ?? [],
+                      final fuzzyStops = Fuzzy(stops,
                           options: FuzzyOptions(
                               threshold: 0.4,
                               findAllMatches: true,
                               shouldNormalize: true,
                               shouldSort: true,
-                              tokenize: true,
+                              tokenize: false,
                               keys: [
                                 WeightedKey(
-                                    name: "id",
-                                    getter: (dynamic stop) => stop["id"],
-                                    weight: 1),
+                                    name: "code",
+                                    getter: (dynamic stop) => stop["code"],
+                                    weight: 10),
                                 WeightedKey(
                                     name: "name",
                                     getter: (dynamic stop) => stop["name"],
@@ -103,7 +106,10 @@ class ArrivalsScreenBody extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ArrivalsScreenStop(
-                              stop: Stop(id: stop["id"], name: stop["name"])),
+                              stop: Stop(
+                                  id: stop["id"],
+                                  code: stop["code"],
+                                  name: stop["name"])),
                         ),
                       );
                     }),
@@ -125,7 +131,7 @@ class ArrivalsScreenStop extends StatelessWidget {
       body: ArrivalsScreenStopBody(
         stop: stop,
       ),
-      appBarTitle: '${stop.name} (${stop.id})',
+      appBarTitle: '${stop.name} (${stop.code})',
       showDrawer: false,
     );
   }
