@@ -113,10 +113,13 @@ Widget build(BuildContext context) {
           .toString()
           .split(&#39;.&#39;)
           .last),
-      builder: (BuildContext context, AsyncSnapshot&lt;List&lt;dynamic&gt;&gt; snapshot) {
+      builder: (BuildContext context, AsyncSnapshot&lt;dynamic&gt; snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         } else {
+          List&lt;dynamic&gt; stops = [];
+          snapshot.data
+              .forEach((key, value) =&gt; stops.add({&quot;id&quot;: key}..addAll(value)));
           return Column(children: [
             Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20),
@@ -142,7 +145,7 @@ Widget build(BuildContext context) {
                     return ListTile(
                       leading: const Icon(Icons.directions_bus_filled),
                       title: Text(stop[&quot;name&quot;]),
-                      trailing: Text(stop[&quot;id&quot;]),
+                      trailing: Text(stop[&quot;code&quot;]),
                     );
                   },
                   popupItemBuilder: (BuildContext context, dynamic stop, _) {
@@ -152,23 +155,23 @@ Widget build(BuildContext context) {
                     return ListTile(
                       leading: const Icon(Icons.directions_bus_filled),
                       title: Text(stop[&quot;name&quot;]),
-                      trailing: Text(stop[&quot;id&quot;]),
+                      trailing: Text(stop[&quot;code&quot;]),
                     );
                   },
                   isFilteredOnline: true,
                   onFind: (String? filter) async {
-                    final fuzzyStops = Fuzzy(snapshot.data ?? [],
+                    final fuzzyStops = Fuzzy(stops,
                         options: FuzzyOptions(
                             threshold: 0.4,
                             findAllMatches: true,
                             shouldNormalize: true,
                             shouldSort: true,
-                            tokenize: true,
+                            tokenize: false,
                             keys: [
                               WeightedKey(
-                                  name: &quot;id&quot;,
-                                  getter: (dynamic stop) =&gt; stop[&quot;id&quot;],
-                                  weight: 1),
+                                  name: &quot;code&quot;,
+                                  getter: (dynamic stop) =&gt; stop[&quot;code&quot;],
+                                  weight: 10),
                               WeightedKey(
                                   name: &quot;name&quot;,
                                   getter: (dynamic stop) =&gt; stop[&quot;name&quot;],
@@ -185,7 +188,10 @@ Widget build(BuildContext context) {
                       context,
                       MaterialPageRoute(
                         builder: (context) =&gt; ArrivalsScreenStop(
-                            stop: Stop(id: stop[&quot;id&quot;], name: stop[&quot;name&quot;])),
+                            stop: Stop(
+                                id: stop[&quot;id&quot;],
+                                code: stop[&quot;code&quot;],
+                                name: stop[&quot;name&quot;])),
                       ),
                     );
                   }),
@@ -258,7 +264,7 @@ Widget build(BuildContext context) {
 <footer>
   <span class="no-break">
     now8
-      0.6.0
+      0.7.0
   </span>
 
   

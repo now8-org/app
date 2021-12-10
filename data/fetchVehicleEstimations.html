@@ -66,8 +66,8 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;List&lt;VehicleEstimation&gt;&gt; fetchVehicleEstimations(
     String cityName, String stopCode) async {
-  final response = await http.get(Uri.parse(
-      &#39;https:&#47;&#47;api.now8.systems&#47;$cityName&#47;v3&#47;stop&#47;$stopCode&#47;estimation&#39;));
+  final response = await http.get(
+      Uri.parse(&#39;$apiBaseUrl&#47;$cityName&#47;$apiVersion&#47;stop&#47;$stopCode&#47;estimation&#39;));
 
   if (response.statusCode == 200) {
     List&lt;dynamic&gt; json = jsonDecode(response.body);
@@ -79,8 +79,8 @@
               id: vehicleEstimation[&#39;vehicle&#39;]![&#39;id&#39;],
               line: Line(
                 id: vehicleEstimation[&#39;vehicle&#39;]![&#39;line&#39;]![&#39;id&#39;],
-                transportType: vehicleEstimation[&#39;vehicle&#39;]![&#39;line&#39;]
-                    [&#39;transport_type&#39;],
+                transportType: TransportType.values[
+                    vehicleEstimation[&#39;vehicle&#39;]![&#39;line&#39;][&#39;transport_type&#39;]],
                 name: vehicleEstimation[&#39;vehicle&#39;]![&#39;line&#39;][&#39;name&#39;],
               ),
               name: vehicleEstimation[&#39;vehicle&#39;]![&#39;name&#39;]),
@@ -122,6 +122,9 @@
 
 
 
+  <li class="section-title"><a href="../data/data-library.html#constants">Constants</a></li>
+  <li><a href="../data/apiBaseUrl-constant.html">apiBaseUrl</a></li>
+  <li><a href="../data/apiVersion-constant.html">apiVersion</a></li>
 
 
   <li class="section-title"><a href="../data/data-library.html#functions">Functions</a></li>
@@ -142,7 +145,7 @@
 <footer>
   <span class="no-break">
     now8
-      0.6.0
+      0.7.0
   </span>
 
   
