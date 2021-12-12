@@ -53,7 +53,8 @@
         
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../screens_arrivals/ArrivalCard-class.html">ArrivalCard</a></span>&gt;</span></span>
-<span class="name ">generateArrivalCards</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="generateArrivalCards-param-vehicleEstimations"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../domain/VehicleEstimation-class.html">VehicleEstimation</a></span>&gt;</span></span> <span class="parameter-name">vehicleEstimations</span></span></li>
+<span class="name ">generateArrivalCards</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="generateArrivalCards-param-vehicleEstimations"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../domain/VehicleEstimation-class.html">VehicleEstimation</a></span>&gt;</span></span> <span class="parameter-name">vehicleEstimations</span>, </span></li>
+<li><span class="parameter" id="generateArrivalCards-param-stop"><span class="type-annotation"><a href="../domain/Stop-class.html">Stop</a></span> <span class="parameter-name">stop</span></span></li>
 </ol>)
 
     </section>
@@ -64,20 +65,40 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">List&lt;ArrivalCard&gt; generateArrivalCards(
-    List&lt;VehicleEstimation&gt; vehicleEstimations) {
+    List&lt;VehicleEstimation&gt; vehicleEstimations, Stop stop) {
   const int nEstimations = 3;
   List&lt;ArrivalCard&gt; arrivalCards = [];
-  Map&lt;String, List&lt;DateTime&gt;&gt; cardContent = {};
+  Map&lt;Line, List&lt;DateTime&gt;&gt; cardContent = {
+    for (Line line in stop.lines.values) line: []
+  };
 
   for (VehicleEstimation vehicleEstimation in vehicleEstimations) {
-    cardContent.putIfAbsent(vehicleEstimation.vehicle.line.id, () =&gt; []);
-    cardContent.update(vehicleEstimation.vehicle.line.id,
-        (value) =&gt; [...value, vehicleEstimation.estimation.estimation]);
+    var key = cardContent.keys.firstWhere(
+        (element) =&gt; element.code == vehicleEstimation.vehicle.line.code,
+        orElse: () =&gt; vehicleEstimation.vehicle.line);
+    cardContent.update(
+        key, (value) =&gt; [...value, vehicleEstimation.estimation.estimation],
+        ifAbsent: () =&gt; [vehicleEstimation.estimation.estimation]);
   }
 
+  cardContent.removeWhere((key, value) {
+    for (var entry in cardContent.entries) {
+      if (key != entry.key &amp;&amp;
+          key.code == entry.key.code &amp;&amp;
+          (value.length &lt; entry.value.length || value.isEmpty)) {
+        return true;
+      }
+    }
+    return false;
+  });
+
   cardContent.forEach((key, value) {
-    arrivalCards.add(
-        ArrivalCard(line: key, estimations: value.take(nEstimations).toList()));
+    arrivalCards.add(ArrivalCard(
+      line: key.code,
+      estimations: value.take(nEstimations).toList(),
+      icon: getIcon(key.transportType),
+      iconColor: stop.lines[key.id]?.color,
+    ));
   });
 
   return arrivalCards;
@@ -131,7 +152,7 @@
 <footer>
   <span class="no-break">
     now8
-      0.7.0
+      0.8.0
   </span>
 
   

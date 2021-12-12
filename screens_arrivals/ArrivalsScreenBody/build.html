@@ -143,7 +143,7 @@ Widget build(BuildContext context) {
                       return Container();
                     }
                     return ListTile(
-                      leading: const Icon(Icons.directions_bus_filled),
+                      leading: const Icon(Icons.commute),
                       title: Text(stop[&quot;name&quot;]),
                       trailing: Text(stop[&quot;code&quot;]),
                     );
@@ -153,7 +153,7 @@ Widget build(BuildContext context) {
                       return Container();
                     }
                     return ListTile(
-                      leading: const Icon(Icons.directions_bus_filled),
+                      leading: const Icon(Icons.commute),
                       title: Text(stop[&quot;name&quot;]),
                       trailing: Text(stop[&quot;code&quot;]),
                     );
@@ -187,11 +187,8 @@ Widget build(BuildContext context) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =&gt; ArrivalsScreenStop(
-                            stop: Stop(
-                                id: stop[&quot;id&quot;],
-                                code: stop[&quot;code&quot;],
-                                name: stop[&quot;name&quot;])),
+                        builder: (context) =&gt;
+                            ArrivalsScreenStop(stop: Stop.fromJson(stop)),
                       ),
                     );
                   }),
@@ -264,7 +261,7 @@ Widget build(BuildContext context) {
 <footer>
   <span class="no-break">
     now8
-      0.7.0
+      0.8.0
   </span>
 
   

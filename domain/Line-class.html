@@ -58,7 +58,13 @@
 
       <dl class="constructor-summary-list">
         <dt id="Line" class="callable">
-          <span class="name"><a href="../domain/Line/Line.html">Line</a></span><span class="signature">(<span class="parameter" id="-param-id">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">id</span>, </span><span class="parameter" id="-param-transportType"><span>required</span> <span class="type-annotation"><a href="../domain/TransportType.html">TransportType</a></span> <span class="parameter-name">transportType</span>, </span><span class="parameter" id="-param-name"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span>}</span>)</span>
+          <span class="name"><a href="../domain/Line/Line.html">Line</a></span><span class="signature">(<span class="parameter" id="-param-id">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">id</span>, </span><span class="parameter" id="-param-code"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">code</span>, </span><span class="parameter" id="-param-transportType"><span>required</span> <span class="type-annotation"><a href="../domain/TransportType.html">TransportType</a></span> <span class="parameter-name">transportType</span>, </span><span class="parameter" id="-param-name"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span>, </span><span class="parameter" id="-param-way"><span class="type-annotation"><a href="../domain/Way.html">Way</a>?</span> <span class="parameter-name">way</span>, </span><span class="parameter" id="-param-color"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/Color-class.html">Color</a>?</span> <span class="parameter-name">color</span>}</span>)</span>
+        </dt>
+        <dd>
+           
+        </dd>
+        <dt id="Line.fromJson" class="callable">
+          <span class="name"><a href="../domain/Line/Line.fromJson.html">Line.fromJson</a></span><span class="signature">(<span class="parameter" id="fromJson-param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a></span> <span class="parameter-name">json</span></span>)</span>
         </dt>
         <dd>
            
@@ -70,6 +76,28 @@
       <h2>Properties</h2>
 
       <dl class="properties">
+        <dt id="code" class="property">
+  <span class="name"><a href="../domain/Line/code.html">code</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> 
+
+</dt>
+<dd>
+   
+  <div class="features">read / write</div>
+
+</dd>
+
+        <dt id="color" class="property">
+  <span class="name"><a href="../domain/Line/color.html">color</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-ui/Color-class.html">Color</a>?</span> 
+
+</dt>
+<dd>
+   
+  <div class="features">read / write</div>
+
+</dd>
+
         <dt id="hashCode" class="property inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
@@ -83,23 +111,23 @@
 
         <dt id="id" class="property">
   <span class="name"><a href="../domain/Line/id.html">id</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> 
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> 
 
 </dt>
 <dd>
    
-  <div class="features">final</div>
+  <div class="features">read / write</div>
 
 </dd>
 
         <dt id="name" class="property">
   <span class="name"><a href="../domain/Line/name.html">name</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> 
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> 
 
 </dt>
 <dd>
    
-  <div class="features">final</div>
+  <div class="features">read / write</div>
 
 </dd>
 
@@ -116,12 +144,23 @@
 
         <dt id="transportType" class="property">
   <span class="name"><a href="../domain/Line/transportType.html">transportType</a></span>
-  <span class="signature">&#8594; <a href="../domain/TransportType.html">TransportType</a></span> 
+  <span class="signature">&#8596; <a href="../domain/TransportType.html">TransportType</a></span> 
 
 </dt>
 <dd>
    
-  <div class="features">final</div>
+  <div class="features">read / write</div>
+
+</dd>
+
+        <dt id="way" class="property">
+  <span class="name"><a href="../domain/Line/way.html">way</a></span>
+  <span class="signature">&#8596; <a href="../domain/Way.html">Way</a>?</span> 
+
+</dt>
+<dd>
+   
+  <div class="features">read / write</div>
 
 </dd>
 
@@ -215,6 +254,7 @@
   <li class="section-title"><a href="../domain/domain-library.html#enums">Enums</a></li>
   <li><a href="../domain/City.html">City</a></li>
   <li><a href="../domain/TransportType.html">TransportType</a></li>
+  <li><a href="../domain/Way.html">Way</a></li>
 
 
 </ol>
@@ -226,16 +266,20 @@
 
     <li class="section-title"><a href="../domain/Line-class.html#constructors">Constructors</a></li>
     <li><a href="../domain/Line/Line.html">Line</a></li>
+    <li><a href="../domain/Line/Line.fromJson.html">fromJson</a></li>
 
 
     <li class="section-title">
       <a href="../domain/Line-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../domain/Line/code.html">code</a></li>
+    <li><a href="../domain/Line/color.html">color</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../domain/Line/id.html">id</a></li>
     <li><a href="../domain/Line/name.html">name</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
     <li><a href="../domain/Line/transportType.html">transportType</a></li>
+    <li><a href="../domain/Line/way.html">way</a></li>
 
     <li class="section-title inherited"><a href="../domain/Line-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
@@ -256,7 +300,7 @@
 <footer>
   <span class="no-break">
     now8
-      0.7.0
+      0.8.0
   </span>
 
   
