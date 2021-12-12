@@ -2,7 +2,7 @@
 name: now8
 description: Improved public transport arrival time estimations using Machine Learning.
 publish_to: none
-version: 0.6.0
+version: 0.7.0
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
