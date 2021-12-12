@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:now8/data.dart';
 import 'package:now8/domain.dart';
 import 'package:now8/providers.dart';
+import 'package:now8/icons.dart';
 import 'package:now8/screens/common.dart';
 import 'package:provider/provider.dart';
 
@@ -61,7 +62,7 @@ class ArrivalsScreenBody extends StatelessWidget {
                         return Container();
                       }
                       return ListTile(
-                        leading: const Icon(Icons.directions_bus_filled),
+                        leading: const Icon(Icons.commute),
                         title: Text(stop["name"]),
                         trailing: Text(stop["code"]),
                       );
@@ -71,7 +72,7 @@ class ArrivalsScreenBody extends StatelessWidget {
                         return Container();
                       }
                       return ListTile(
-                        leading: const Icon(Icons.directions_bus_filled),
+                        leading: const Icon(Icons.commute),
                         title: Text(stop["name"]),
                         trailing: Text(stop["code"]),
                       );
@@ -105,11 +106,8 @@ class ArrivalsScreenBody extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ArrivalsScreenStop(
-                              stop: Stop(
-                                  id: stop["id"],
-                                  code: stop["code"],
-                                  name: stop["name"])),
+                          builder: (context) =>
+                              ArrivalsScreenStop(stop: Stop.fromJson(stop)),
                         ),
                       );
                     }),
@@ -177,7 +175,8 @@ class _ArrivalsScreenStopBodyState extends State<ArrivalsScreenStopBody> {
                     });
                   },
                   child: ListView(
-                    children: generateArrivalCards(snapshot.data ?? []),
+                    children:
+                        generateArrivalCards(snapshot.data ?? [], widget.stop),
                     physics: const AlwaysScrollableScrollPhysics(),
                   ),
                   triggerMode: RefreshIndicatorTriggerMode.anywhere,
@@ -188,20 +187,40 @@ class _ArrivalsScreenStopBodyState extends State<ArrivalsScreenStopBody> {
 }
 
 List<ArrivalCard> generateArrivalCards(
-    List<VehicleEstimation> vehicleEstimations) {
+    List<VehicleEstimation> vehicleEstimations, Stop stop) {
   const int nEstimations = 3;
   List<ArrivalCard> arrivalCards = [];
-  Map<String, List<DateTime>> cardContent = {};
+  Map<Line, List<DateTime>> cardContent = {
+    for (Line line in stop.lines.values) line: []
+  };
 
   for (VehicleEstimation vehicleEstimation in vehicleEstimations) {
-    cardContent.putIfAbsent(vehicleEstimation.vehicle.line.id, () => []);
-    cardContent.update(vehicleEstimation.vehicle.line.id,
-        (value) => [...value, vehicleEstimation.estimation.estimation]);
+    var key = cardContent.keys.firstWhere(
+        (element) => element.code == vehicleEstimation.vehicle.line.code,
+        orElse: () => vehicleEstimation.vehicle.line);
+    cardContent.update(
+        key, (value) => [...value, vehicleEstimation.estimation.estimation],
+        ifAbsent: () => [vehicleEstimation.estimation.estimation]);
   }
 
+  cardContent.removeWhere((key, value) {
+    for (var entry in cardContent.entries) {
+      if (key != entry.key &&
+          key.code == entry.key.code &&
+          (value.length < entry.value.length || value.isEmpty)) {
+        return true;
+      }
+    }
+    return false;
+  });
+
   cardContent.forEach((key, value) {
-    arrivalCards.add(
-        ArrivalCard(line: key, estimations: value.take(nEstimations).toList()));
+    arrivalCards.add(ArrivalCard(
+      line: key.code,
+      estimations: value.take(nEstimations).toList(),
+      icon: getIcon(key.transportType),
+      iconColor: stop.lines[key.id]?.color,
+    ));
   });
 
   return arrivalCards;
@@ -210,9 +229,16 @@ List<ArrivalCard> generateArrivalCards(
 class ArrivalCard extends StatelessWidget {
   final String line;
   final List<DateTime> estimations;
+  final IconData icon;
+  final Color? iconColor;
 
-  const ArrivalCard({Key? key, required this.line, required this.estimations})
-      : super(key: key);
+  const ArrivalCard({
+    Key? key,
+    required this.line,
+    required this.estimations,
+    required this.icon,
+    this.iconColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +251,7 @@ class ArrivalCard extends StatelessWidget {
                 Expanded(
                     flex: 3,
                     child: Row(children: [
-                      const Icon(Icons.directions_bus),
+                      Icon(icon, color: iconColor),
                       Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(line,
