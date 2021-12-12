@@ -1,3 +1,9 @@
+## 0.8.0 (2021-12-12)
+
+### Feat
+
+- add transport type icons
+
 ## 0.7.0 (2021-12-10)
 
 ### Feat

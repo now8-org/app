@@ -1,5 +1,5 @@
 commitizen:
   name: cz_conventional_commits
-  version: 0.7.0
+  version: 0.8.0
   version_files:
   - pubspec.yaml
