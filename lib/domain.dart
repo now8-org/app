@@ -20,14 +20,29 @@ enum TransportType {
 
 enum Way { outbound, inbound }
 
+class RouteWay {
+  late String routeId;
+  late Way? way;
+
+  RouteWay({
+    required this.routeId,
+    this.way,
+  });
+
+  RouteWay.fromJson(Map json) {
+    routeId = json['id'];
+    way = json['way'] != null ? Way.values[json['way']] : null;
+  }
+}
+
 class Stop {
   late String id;
   late String code;
   late String name;
   late double longitude;
   late double latitude;
-  late String zone;
-  late Map<String, Line> lines;
+  late String? zone;
+  late List<RouteWay> routeWays;
 
   Stop({
     required this.id,
@@ -35,8 +50,8 @@ class Stop {
     required this.name,
     required this.longitude,
     required this.latitude,
-    required this.zone,
-    required this.lines,
+    this.zone,
+    required this.routeWays,
   });
 
   Stop.fromJson(Map json) {
@@ -46,69 +61,77 @@ class Stop {
     longitude = json['longitude'];
     latitude = json['latitude'];
     zone = json['zone'];
-    lines = {
-      for (var entry in json['lines'].entries)
-        entry.key: Line.fromJson({
-          ...{"id": entry.key},
-          ...entry.value,
-        }),
-    };
+    routeWays = List<RouteWay>.from(
+        json['route_ways'].map((var value) => RouteWay.fromJson(value)));
   }
 }
 
-class Line {
+class Route {
   late String id;
   late String code;
   late TransportType transportType;
   late String name;
-  late Way? way;
   late Color? color;
 
-  Line({
+  Route({
     required this.id,
     required this.code,
     required this.transportType,
     required this.name,
-    this.way,
     this.color,
   });
 
-  Line.fromJson(Map json) {
+  Route.fromJson(Map json) {
     id = json['id'];
     code = json['code'];
     transportType = TransportType.values[json['transport_type']];
     name = json['name'];
-    way = Way.values[json['way']];
     color =
-        Color(int.parse(json['color'].substring(1, 7), radix: 16) + 0xFF000000);
+        Color(int.parse(json['color'].substring(0, 6), radix: 16) + 0xFF000000);
   }
 }
 
 class Vehicle {
-  final String id;
-  final Line line;
-  final String name;
+  late String? id;
+  late RouteWay routeWay;
+  late String? name;
 
   Vehicle({
-    required this.id,
-    required this.line,
-    required this.name,
+    this.id,
+    required this.routeWay,
+    this.name,
   });
+
+  Vehicle.fromJson(Map json) {
+    id = json['id'];
+    routeWay = RouteWay.fromJson(json["route_way"]);
+    name = json['name'];
+  }
 }
 
 class Estimation {
-  final DateTime estimation;
-  final DateTime time;
+  late DateTime estimation;
+  late DateTime time;
 
   Estimation({
     required this.estimation,
     required this.time,
   });
+
+  Estimation.fromJson(Map json) {
+    estimation = DateTime.parse(json['estimation']);
+    time = DateTime.parse(json['time']);
+  }
 }
 
 class VehicleEstimation {
-  final Vehicle vehicle;
-  final Estimation estimation;
+  late Vehicle vehicle;
+  late Estimation estimation;
 
-  VehicleEstimation(this.vehicle, this.estimation);
+  VehicleEstimation({required this.vehicle, required this.estimation});
+
+  VehicleEstimation.fromJson(Map json) {
+    vehicle = Vehicle.fromJson(json['vehicle']);
+    estimation = Estimation.fromJson(json['estimation']);
+  }
 }
