@@ -9,6 +9,7 @@ import 'package:now8/icons.dart';
 import 'package:now8/screens/common.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+//import 'package:collection/collection.dart';
 
 import 'dart:developer';
 
@@ -204,10 +205,7 @@ List<ArrivalCard> generateArrivalCards(
     List<VehicleEstimation> vehicleEstimations, Stop stop, dynamic routes) {
   const int nEstimations = 3;
   List<ArrivalCard> arrivalCards = [];
-  Map<Route, List<DateTime>> cardContent = {
-    for (RouteWay routeWay in stop.routeWays)
-      Route.fromJson(routes[routeWay.routeId]): []
-  };
+  Map<Route, List<DateTime>> cardContent = {};
 
   for (VehicleEstimation vehicleEstimation in vehicleEstimations) {
     var key = cardContent.keys.firstWhere(
@@ -219,16 +217,17 @@ List<ArrivalCard> generateArrivalCards(
         ifAbsent: () => [vehicleEstimation.estimation.estimation]);
   }
 
-  cardContent.removeWhere((key, value) {
-    for (var entry in cardContent.entries) {
-      if (key != entry.key &&
-          key.code == entry.key.code &&
-          (value.length < entry.value.length || value.isEmpty)) {
-        return true;
-      }
+  // The following code would add routes that don't have estimations
+  // at the moment. It's commented out because `stop` contains routes
+  // that it shouldn't.
+  /*for (RouteWay routeWay in stop.routeWays) {
+    if (cardContent.keys
+            .firstWhereOrNull((element) => element.id == routeWay.routeId) ==
+        null) {
+      cardContent.putIfAbsent(
+          Route.fromJson(routes[routeWay.routeId]), () => []);
     }
-    return false;
-  });
+  }*/
 
   cardContent.forEach((key, value) {
     arrivalCards.add(ArrivalCard(
