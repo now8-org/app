@@ -1,5 +1,5 @@
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Route;
 import 'package:fuzzy/fuzzy.dart';
 import 'package:intl/intl.dart';
 import 'package:now8/data.dart';
@@ -8,6 +8,11 @@ import 'package:now8/providers.dart';
 import 'package:now8/icons.dart';
 import 'package:now8/screens/common.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
+import 'dart:developer';
+
+final cacheManager = DefaultCacheManager();
 
 class ArrivalsScreen extends StatelessWidget {
   const ArrivalsScreen({Key? key}) : super(key: key);
@@ -27,18 +32,19 @@ class ArrivalsScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: stops(Provider.of<CurrentCityProvider>(context)
-            .city
-            .toString()
-            .split('.')
-            .last),
+        future: stops(
+            Provider.of<CurrentCityProvider>(context)
+                .city
+                .toString()
+                .split('.')
+                .last,
+            cacheManager),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           } else {
             List<dynamic> stops = [];
-            snapshot.data
-                .forEach((key, value) => stops.add({"id": key}..addAll(value)));
+            snapshot.data.forEach((key, value) => stops.add(value));
             return Column(children: [
               Padding(
                   padding: const EdgeInsets.only(top: 20, left: 20),
@@ -158,11 +164,17 @@ class _ArrivalsScreenStopBodyState extends State<ArrivalsScreenStopBody> {
         fetchVehicleEstimations(cityName, widget.stop.id);
 
     return FutureBuilder(
-        future: futureVehicleEstimations,
-        builder: (context, AsyncSnapshot<List<VehicleEstimation>> snapshot) {
-          if (!snapshot.hasData & !snapshot.hasError) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
+        future: Future.wait(
+            [futureVehicleEstimations, routes(cityName, cacheManager)]),
+        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+          if (snapshot.hasError) {
+            log(
+              snapshot.error.toString(),
+              name: 'screens.arrivals._ArrivalsScreenStopBodyState',
+            );
+            return const Center(
+                child: Text("Error fetching arrival times. Try again later."));
+          } else if (snapshot.hasData) {
             return Container(
                 padding: const EdgeInsets.all(10.0),
                 child: RefreshIndicator(
@@ -175,29 +187,33 @@ class _ArrivalsScreenStopBodyState extends State<ArrivalsScreenStopBody> {
                     });
                   },
                   child: ListView(
-                    children:
-                        generateArrivalCards(snapshot.data ?? [], widget.stop),
+                    children: generateArrivalCards(
+                        snapshot.data![0], widget.stop, snapshot.data![1]),
                     physics: const AlwaysScrollableScrollPhysics(),
                   ),
                   triggerMode: RefreshIndicatorTriggerMode.anywhere,
                 ));
+          } else {
+            return const Center(child: CircularProgressIndicator());
           }
         });
   }
 }
 
 List<ArrivalCard> generateArrivalCards(
-    List<VehicleEstimation> vehicleEstimations, Stop stop) {
+    List<VehicleEstimation> vehicleEstimations, Stop stop, dynamic routes) {
   const int nEstimations = 3;
   List<ArrivalCard> arrivalCards = [];
-  Map<Line, List<DateTime>> cardContent = {
-    for (Line line in stop.lines.values) line: []
+  Map<Route, List<DateTime>> cardContent = {
+    for (RouteWay routeWay in stop.routeWays)
+      Route.fromJson(routes[routeWay.routeId]): []
   };
 
   for (VehicleEstimation vehicleEstimation in vehicleEstimations) {
     var key = cardContent.keys.firstWhere(
-        (element) => element.code == vehicleEstimation.vehicle.line.code,
-        orElse: () => vehicleEstimation.vehicle.line);
+        (element) => element.id == vehicleEstimation.vehicle.routeWay.routeId,
+        orElse: () =>
+            Route.fromJson(routes[vehicleEstimation.vehicle.routeWay.routeId]));
     cardContent.update(
         key, (value) => [...value, vehicleEstimation.estimation.estimation],
         ifAbsent: () => [vehicleEstimation.estimation.estimation]);
@@ -216,10 +232,10 @@ List<ArrivalCard> generateArrivalCards(
 
   cardContent.forEach((key, value) {
     arrivalCards.add(ArrivalCard(
-      line: key.code,
+      route: key.code,
       estimations: value.take(nEstimations).toList(),
       icon: getIcon(key.transportType),
-      iconColor: stop.lines[key.id]?.color,
+      iconColor: key.color,
     ));
   });
 
@@ -227,14 +243,14 @@ List<ArrivalCard> generateArrivalCards(
 }
 
 class ArrivalCard extends StatelessWidget {
-  final String line;
+  final String route;
   final List<DateTime> estimations;
   final IconData icon;
   final Color? iconColor;
 
   const ArrivalCard({
     Key? key,
-    required this.line,
+    required this.route,
     required this.estimations,
     required this.icon,
     this.iconColor,
@@ -254,7 +270,7 @@ class ArrivalCard extends StatelessWidget {
                       Icon(icon, color: iconColor),
                       Padding(
                           padding: const EdgeInsets.only(left: 10),
-                          child: Text(line,
+                          child: Text(route,
                               style: Theme.of(context).textTheme.headline5)),
                     ])),
                 ...estimations
