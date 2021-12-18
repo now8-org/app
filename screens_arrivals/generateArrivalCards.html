@@ -54,7 +54,8 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../screens_arrivals/ArrivalCard-class.html">ArrivalCard</a></span>&gt;</span></span>
 <span class="name ">generateArrivalCards</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="generateArrivalCards-param-vehicleEstimations"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../domain/VehicleEstimation-class.html">VehicleEstimation</a></span>&gt;</span></span> <span class="parameter-name">vehicleEstimations</span>, </span></li>
-<li><span class="parameter" id="generateArrivalCards-param-stop"><span class="type-annotation"><a href="../domain/Stop-class.html">Stop</a></span> <span class="parameter-name">stop</span></span></li>
+<li><span class="parameter" id="generateArrivalCards-param-stop"><span class="type-annotation"><a href="../domain/Stop-class.html">Stop</a></span> <span class="parameter-name">stop</span>, </span></li>
+<li><span class="parameter" id="generateArrivalCards-param-routes"><span class="type-annotation">dynamic</span> <span class="parameter-name">routes</span></span></li>
 </ol>)
 
     </section>
@@ -65,39 +66,39 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">List&lt;ArrivalCard&gt; generateArrivalCards(
-    List&lt;VehicleEstimation&gt; vehicleEstimations, Stop stop) {
+    List&lt;VehicleEstimation&gt; vehicleEstimations, Stop stop, dynamic routes) {
   const int nEstimations = 3;
   List&lt;ArrivalCard&gt; arrivalCards = [];
-  Map&lt;Line, List&lt;DateTime&gt;&gt; cardContent = {
-    for (Line line in stop.lines.values) line: []
-  };
+  Map&lt;Route, List&lt;DateTime&gt;&gt; cardContent = {};
 
   for (VehicleEstimation vehicleEstimation in vehicleEstimations) {
     var key = cardContent.keys.firstWhere(
-        (element) =&gt; element.code == vehicleEstimation.vehicle.line.code,
-        orElse: () =&gt; vehicleEstimation.vehicle.line);
+        (element) =&gt; element.id == vehicleEstimation.vehicle.routeWay.routeId,
+        orElse: () =&gt;
+            Route.fromJson(routes[vehicleEstimation.vehicle.routeWay.routeId]));
     cardContent.update(
         key, (value) =&gt; [...value, vehicleEstimation.estimation.estimation],
         ifAbsent: () =&gt; [vehicleEstimation.estimation.estimation]);
   }
 
-  cardContent.removeWhere((key, value) {
-    for (var entry in cardContent.entries) {
-      if (key != entry.key &amp;&amp;
-          key.code == entry.key.code &amp;&amp;
-          (value.length &lt; entry.value.length || value.isEmpty)) {
-        return true;
-      }
+  &#47;&#47; The following code would add routes that don&#39;t have estimations
+  &#47;&#47; at the moment. It&#39;s commented out because `stop` contains routes
+  &#47;&#47; that it shouldn&#39;t.
+  &#47;*for (RouteWay routeWay in stop.routeWays) {
+    if (cardContent.keys
+            .firstWhereOrNull((element) =&gt; element.id == routeWay.routeId) ==
+        null) {
+      cardContent.putIfAbsent(
+          Route.fromJson(routes[routeWay.routeId]), () =&gt; []);
     }
-    return false;
-  });
+  }*&#47;
 
   cardContent.forEach((key, value) {
     arrivalCards.add(ArrivalCard(
-      line: key.code,
+      route: key.code,
       estimations: value.take(nEstimations).toList(),
       icon: getIcon(key.transportType),
-      iconColor: stop.lines[key.id]?.color,
+      iconColor: key.color,
     ));
   });
 
@@ -134,6 +135,8 @@
 
 
 
+  <li class="section-title"><a href="../screens_arrivals/screens_arrivals-library.html#properties">Properties</a></li>
+  <li><a href="../screens_arrivals/cacheManager.html">cacheManager</a></li>
 
   <li class="section-title"><a href="../screens_arrivals/screens_arrivals-library.html#functions">Functions</a></li>
   <li><a href="../screens_arrivals/generateArrivalCards.html">generateArrivalCards</a></li>
@@ -152,7 +155,7 @@
 <footer>
   <span class="no-break">
     now8
-      0.8.0
+      1.0.0
   </span>
 
   

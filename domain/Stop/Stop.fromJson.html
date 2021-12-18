@@ -67,13 +67,8 @@
   longitude = json[&#39;longitude&#39;];
   latitude = json[&#39;latitude&#39;];
   zone = json[&#39;zone&#39;];
-  lines = {
-    for (var entry in json[&#39;lines&#39;].entries)
-      entry.key: Line.fromJson({
-        ...{&quot;id&quot;: entry.key},
-        ...entry.value,
-      }),
-  };
+  routeWays = List&lt;RouteWay&gt;.from(
+      json[&#39;route_ways&#39;].map((var value) =&gt; RouteWay.fromJson(value)));
 }</code></pre>
 </section>
 
@@ -110,9 +105,9 @@
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../../domain/Stop/id.html">id</a></li>
     <li><a href="../../domain/Stop/latitude.html">latitude</a></li>
-    <li><a href="../../domain/Stop/lines.html">lines</a></li>
     <li><a href="../../domain/Stop/longitude.html">longitude</a></li>
     <li><a href="../../domain/Stop/name.html">name</a></li>
+    <li><a href="../../domain/Stop/routeWays.html">routeWays</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
     <li><a href="../../domain/Stop/zone.html">zone</a></li>
 
@@ -138,7 +133,7 @@
 <footer>
   <span class="no-break">
     now8
-      0.8.0
+      1.0.0
   </span>
 
   

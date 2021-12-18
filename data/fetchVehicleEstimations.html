@@ -74,24 +74,7 @@
     List&lt;VehicleEstimation&gt; vehicleEstimations = [];
 
     for (final vehicleEstimation in json) {
-      vehicleEstimations.add(VehicleEstimation(
-          Vehicle(
-              id: vehicleEstimation[&#39;vehicle&#39;]![&#39;id&#39;],
-              line: Line(
-                id: vehicleEstimation[&#39;vehicle&#39;]![&#39;line&#39;]![&#39;id&#39;],
-                code: vehicleEstimation[&#39;vehicle&#39;]![&#39;line&#39;]![&#39;code&#39;],
-                transportType: TransportType.values[
-                    vehicleEstimation[&#39;vehicle&#39;]![&#39;line&#39;][&#39;transport_type&#39;]],
-                name: vehicleEstimation[&#39;vehicle&#39;]![&#39;line&#39;][&#39;name&#39;],
-              ),
-              name: vehicleEstimation[&#39;vehicle&#39;]![&#39;name&#39;]),
-          Estimation(
-            estimation:
-                DateTime.parse(vehicleEstimation[&#39;estimation&#39;]![&#39;estimation&#39;])
-                    .toLocal(),
-            time: DateTime.parse(vehicleEstimation[&#39;estimation&#39;]![&#39;time&#39;])
-                .toLocal(),
-          )));
+      vehicleEstimations.add(VehicleEstimation.fromJson(vehicleEstimation));
     }
 
     return vehicleEstimations;
@@ -130,6 +113,7 @@
 
   <li class="section-title"><a href="../data/data-library.html#functions">Functions</a></li>
   <li><a href="../data/fetchVehicleEstimations.html">fetchVehicleEstimations</a></li>
+  <li><a href="../data/routes.html">routes</a></li>
   <li><a href="../data/stops.html">stops</a></li>
 
 
@@ -146,7 +130,7 @@
 <footer>
   <span class="no-break">
     now8
-      0.8.0
+      1.0.0
   </span>
 
   

@@ -108,18 +108,19 @@ and</li>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
   return FutureBuilder(
-      future: stops(Provider.of&lt;CurrentCityProvider&gt;(context)
-          .city
-          .toString()
-          .split(&#39;.&#39;)
-          .last),
+      future: stops(
+          Provider.of&lt;CurrentCityProvider&gt;(context)
+              .city
+              .toString()
+              .split(&#39;.&#39;)
+              .last,
+          cacheManager),
       builder: (BuildContext context, AsyncSnapshot&lt;dynamic&gt; snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         } else {
           List&lt;dynamic&gt; stops = [];
-          snapshot.data
-              .forEach((key, value) =&gt; stops.add({&quot;id&quot;: key}..addAll(value)));
+          snapshot.data.forEach((key, value) =&gt; stops.add(value));
           return Column(children: [
             Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20),
@@ -261,7 +262,7 @@ Widget build(BuildContext context) {
 <footer>
   <span class="no-break">
     now8
-      0.8.0
+      1.0.0
   </span>
 
   
