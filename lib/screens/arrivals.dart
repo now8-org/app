@@ -9,6 +9,7 @@ import 'package:now8/icons.dart';
 import 'package:now8/screens/common.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:collection/collection.dart';
 
 import 'dart:developer';
@@ -32,96 +33,133 @@ class ArrivalsScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: stops(
-            Provider.of<CurrentCityProvider>(context)
-                .city
-                .toString()
-                .split('.')
-                .last,
-            cacheManager),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            List<dynamic> stops = [];
-            snapshot.data.forEach((key, value) => stops.add(value));
-            return Column(children: [
-              Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 20),
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Stop:",
-                        style: Theme.of(context).textTheme.headline6,
-                      ))),
-              Container(
-                padding: const EdgeInsets.all(20.0),
-                child: DropdownSearch<dynamic>(
-                    mode: Mode.BOTTOM_SHEET,
-                    dropdownSearchDecoration: InputDecoration(
-                      hintText: "Select a stop...",
-                      hintStyle: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    showSearchBox: true,
-                    dropdownBuilder: (BuildContext context, dynamic stop) {
-                      if (stop == null) {
-                        return Container();
-                      }
-                      return ListTile(
-                        leading: const Icon(Icons.commute),
-                        title: Text(stop["name"]),
-                        trailing: Text(stop["code"]),
-                      );
-                    },
-                    popupItemBuilder: (BuildContext context, dynamic stop, _) {
-                      if (stop == null) {
-                        return Container();
-                      }
-                      return ListTile(
-                        leading: const Icon(Icons.commute),
-                        title: Text(stop["name"]),
-                        trailing: Text(stop["code"]),
-                      );
-                    },
-                    isFilteredOnline: true,
-                    onFind: (String? filter) async {
-                      final fuzzyStops = Fuzzy(stops,
-                          options: FuzzyOptions(
-                              threshold: 0.4,
-                              findAllMatches: true,
-                              shouldNormalize: true,
-                              shouldSort: true,
-                              tokenize: false,
-                              keys: [
-                                WeightedKey(
-                                    name: "code",
-                                    getter: (dynamic stop) => stop["code"],
-                                    weight: 10),
-                                WeightedKey(
-                                    name: "name",
-                                    getter: (dynamic stop) => stop["name"],
-                                    weight: 1)
-                              ]));
-                      final List<dynamic> filteredStopsFuzzy =
-                          fuzzyStops.search(filter ?? '');
+    List<dynamic>? stops = Provider.of<StopsProvider>(context).stops;
+    if (stops == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return Column(children: [
+      Padding(
+          padding: const EdgeInsets.only(top: 20, left: 20),
+          child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Stop:",
+                style: Theme.of(context).textTheme.headline6,
+              ))),
+      Container(
+        padding: const EdgeInsets.all(20.0),
+        child: DropdownSearch<dynamic>(
+            mode: Mode.BOTTOM_SHEET,
+            dropdownSearchDecoration: InputDecoration(
+              hintText: "Select a stop...",
+              hintStyle: Theme.of(context).textTheme.bodyText1,
+            ),
+            showSearchBox: true,
+            dropdownBuilder: (BuildContext context, dynamic stop) {
+              if (stop == null) {
+                return Container();
+              }
+              return ListTile(
+                leading: const Icon(Icons.commute),
+                title: Text('${stop["name"]} (${stop["code"]})'),
+              );
+            },
+            popupItemBuilder: (BuildContext context, dynamic stop, _) {
+              if (stop == null) {
+                return Container();
+              }
+              return ListTile(
+                leading: const Icon(Icons.commute),
+                title: Text('${stop["name"]} (${stop["code"]})'),
+                trailing: Provider.of<FavoriteStopIdsProvider>(context)
+                        .contains(stop["id"])
+                    ? const Icon(Icons.star)
+                    : null,
+              );
+            },
+            isFilteredOnline: true,
+            onFind: (String? filter) async {
+              final fuzzyStops = Fuzzy(stops,
+                  options: FuzzyOptions(
+                      threshold: 0.4,
+                      findAllMatches: true,
+                      shouldNormalize: true,
+                      shouldSort: true,
+                      tokenize: false,
+                      keys: [
+                        WeightedKey(
+                            name: "code",
+                            getter: (dynamic stop) => stop["code"],
+                            weight: 10),
+                        WeightedKey(
+                            name: "name",
+                            getter: (dynamic stop) => stop["name"],
+                            weight: 1)
+                      ]));
+              final List<dynamic> filteredStopsFuzzy =
+                  fuzzyStops.search(filter ?? '');
 
-                      return Future.value(
-                          filteredStopsFuzzy.map((r) => r.item).toList());
-                    },
-                    onChanged: (dynamic stop) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ArrivalsScreenStop(stop: Stop.fromJson(stop)),
-                        ),
-                      );
-                    }),
-              )
-            ]);
-          }
-        });
+              return Future.value(
+                  filteredStopsFuzzy.map((r) => r.item).toList());
+            },
+            onChanged: (dynamic stop) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ArrivalsScreenStop(stop: Stop.fromJson(stop)),
+                ),
+              );
+            }),
+      )
+    ]);
+  }
+}
+
+class FavoriteIconButton extends StatefulWidget {
+  const FavoriteIconButton({Key? key, required this.stop}) : super(key: key);
+
+  final Stop stop;
+
+  @override
+  State<FavoriteIconButton> createState() => _FavoriteIconButtonState();
+}
+
+class _FavoriteIconButtonState extends State<FavoriteIconButton> {
+  bool _isFavorite = false;
+
+  @override
+  Widget build(BuildContext context) {
+    Stop stop = widget.stop;
+    return FutureBuilder(
+      future: SharedPreferences.getInstance(),
+      builder:
+          (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+        if (snapshot.hasData) {
+          _isFavorite =
+              Provider.of<FavoriteStopIdsProvider>(context, listen: false)
+                  .contains(stop.id);
+          return IconButton(
+              onPressed: () {
+                if (_isFavorite) {
+                  Provider.of<FavoriteStopIdsProvider>(context, listen: false)
+                      .remove(stop.id);
+                } else {
+                  Provider.of<FavoriteStopIdsProvider>(context, listen: false)
+                      .add(stop.id);
+                }
+                setState(() {
+                  _isFavorite = !_isFavorite;
+                });
+              },
+              icon: _isFavorite
+                  ? const Icon(Icons.star)
+                  : const Icon(Icons.star_border));
+        } else {
+          return const Icon(Icons.star_border);
+        }
+      },
+    );
   }
 }
 
@@ -138,6 +176,7 @@ class ArrivalsScreenStop extends StatelessWidget {
       ),
       appBarTitle: '${stop.name} (${stop.code})',
       showDrawer: false,
+      actions: [FavoriteIconButton(stop: stop)],
     );
   }
 }
@@ -155,11 +194,7 @@ class ArrivalsScreenStopBody extends StatefulWidget {
 class _ArrivalsScreenStopBodyState extends State<ArrivalsScreenStopBody> {
   @override
   Widget build(BuildContext context) {
-    String cityName = Provider.of<CurrentCityProvider>(context)
-        .city
-        .toString()
-        .split('.')
-        .last;
+    String cityName = Provider.of<CurrentCityProvider>(context).cityName;
 
     Future<List<VehicleEstimation>> futureVehicleEstimations =
         fetchVehicleEstimations(cityName, widget.stop.id);

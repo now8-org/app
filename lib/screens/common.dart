@@ -20,7 +20,6 @@ class CityDropdown extends StatelessWidget {
           .toList(),
       onChanged: (value) {
         currentCity.city = value!;
-        currentCity.onChange();
       },
     );
   }
@@ -29,6 +28,7 @@ class CityDropdown extends StatelessWidget {
 class ScreenTemplate extends StatelessWidget {
   final Widget body;
   final String appBarTitle;
+  final List<Widget>? actions;
   final bool showDrawer;
 
   final Widget drawer = DefaultDrawer();
@@ -37,6 +37,7 @@ class ScreenTemplate extends StatelessWidget {
       {Key? key,
       required this.body,
       required this.appBarTitle,
+      this.actions,
       this.showDrawer = true})
       : super(key: key);
 
@@ -46,6 +47,7 @@ class ScreenTemplate extends StatelessWidget {
       appBar: AppBar(
         title: Text(appBarTitle),
         centerTitle: true,
+        actions: actions,
       ),
       drawer: showDrawer ? drawer : null,
       body: body,
