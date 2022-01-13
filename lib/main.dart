@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:now8/providers.dart';
 import 'package:now8/screens/arrivals.dart';
+import 'package:now8/screens/favorites.dart';
 import 'package:now8/screens/home.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,6 +67,13 @@ class MyApp extends StatelessWidget {
                 {
                   return MaterialPageRoute(
                     builder: (context) => const ArrivalsScreen(),
+                    settings: RouteSettings(name: settings.name),
+                  );
+                }
+              case "favorites":
+                {
+                  return MaterialPageRoute(
+                    builder: (context) => const FavoritesScreen(),
                     settings: RouteSettings(name: settings.name),
                   );
                 }

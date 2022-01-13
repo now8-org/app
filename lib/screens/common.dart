@@ -67,6 +67,8 @@ class RouteInfo {
 
 class DefaultDrawer extends StatelessWidget {
   final List<RouteInfo> routeInfos = [
+    RouteInfo(title: "Home", route: "/", iconData: Icons.home),
+    RouteInfo(title: "Favorites", route: "/favorites", iconData: Icons.stars),
     RouteInfo(
         title: "Arrivals", route: "/arrivals", iconData: Icons.departure_board)
   ];

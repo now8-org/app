@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:now8/screens/common.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:now8/screens/favorites.dart';
 import 'package:now8/screens/welcome.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -14,12 +13,7 @@ class HomeScreen extends StatelessWidget {
         builder:
             (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
           if (snapshot.hasData) {
-            SharedPreferences prefs = snapshot.data!;
-            if (prefs.getStringList("favorite_stop_ids") != null) {
-              return const FavoritesScreen();
-            } else {
-              return const WelcomeScreen();
-            }
+            return const WelcomeScreen();
           } else {
             return ScreenTemplate(body: Container(), appBarTitle: "now8");
           }
