@@ -3,6 +3,7 @@ import 'package:now8/domain.dart';
 import 'package:now8/providers.dart';
 import 'package:provider/provider.dart';
 import 'package:recase/recase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CityDropdown extends StatelessWidget {
   const CityDropdown({Key? key}) : super(key: key);
@@ -113,6 +114,53 @@ class DrawerTile extends StatelessWidget {
           : () {
               Navigator.of(context).pushNamed(routeInfo.route);
             },
+    );
+  }
+}
+
+class FavoriteIconButton extends StatefulWidget {
+  const FavoriteIconButton({Key? key, required this.stop}) : super(key: key);
+
+  final Stop stop;
+
+  @override
+  State<FavoriteIconButton> createState() => _FavoriteIconButtonState();
+}
+
+class _FavoriteIconButtonState extends State<FavoriteIconButton> {
+  bool _isFavorite = false;
+
+  @override
+  Widget build(BuildContext context) {
+    Stop stop = widget.stop;
+    return FutureBuilder(
+      future: SharedPreferences.getInstance(),
+      builder:
+          (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+        if (snapshot.hasData) {
+          _isFavorite =
+              Provider.of<FavoriteStopIdsProvider>(context, listen: false)
+                  .contains(stop.id);
+          return IconButton(
+              onPressed: () {
+                if (_isFavorite) {
+                  Provider.of<FavoriteStopIdsProvider>(context, listen: false)
+                      .remove(stop.id);
+                } else {
+                  Provider.of<FavoriteStopIdsProvider>(context, listen: false)
+                      .add(stop.id);
+                }
+                setState(() {
+                  _isFavorite = !_isFavorite;
+                });
+              },
+              icon: _isFavorite
+                  ? const Icon(Icons.star)
+                  : const Icon(Icons.star_border));
+        } else {
+          return const Icon(Icons.star_border);
+        }
+      },
     );
   }
 }

@@ -5,6 +5,9 @@ import 'package:now8/screens/home.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:now8/screens/stop.dart';
+import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
+import 'dart:developer';
 
 class MyApp extends StatelessWidget {
   final String cityName;
@@ -56,15 +59,46 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Roboto',
           ),
           initialRoute: '/',
-          routes: {
-            '/': (context) => const HomeScreen(),
-            '/arrivals': (context) => const ArrivalsScreen(),
+          onGenerateRoute: (settings) {
+            List<String> pathComponents = settings.name!.split('/');
+            switch (pathComponents[1]) {
+              case "arrivals":
+                {
+                  return MaterialPageRoute(
+                    builder: (context) => const ArrivalsScreen(),
+                    settings: RouteSettings(name: settings.name),
+                  );
+                }
+              case "stop":
+                {
+                  if (pathComponents.length > 2 &&
+                      pathComponents[2].isNotEmpty) {
+                    return MaterialPageRoute(
+                      builder: (context) =>
+                          StopScreen(stopId: pathComponents[2]),
+                      settings: RouteSettings(name: settings.name),
+                    );
+                  }
+                  break;
+                }
+              default:
+                {
+                  if (pathComponents[1] != "") {
+                    log("Invalid route ${settings.name}");
+                  }
+                  return MaterialPageRoute(
+                    builder: (context) => const HomeScreen(),
+                    settings: const RouteSettings(name: "/"),
+                  );
+                }
+            }
           },
         ));
   }
 }
 
 void main() async {
+  configureApp();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String cityName = sharedPreferences.getString("city_name") ?? "madrid";
   BaseCacheManager cacheManager = DefaultCacheManager();
