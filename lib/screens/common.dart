@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Route;
 import 'package:now8/domain.dart';
 import 'package:now8/providers.dart';
 import 'package:provider/provider.dart';
@@ -164,5 +164,47 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
         }
       },
     );
+  }
+}
+
+class StopListTile extends StatelessWidget {
+  final Stop? stop;
+  final bool isFavorite;
+
+  const StopListTile({Key? key, required this.stop, this.isFavorite = false})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.commute),
+      title: Row(children: [
+        Expanded(
+            flex: 3,
+            child: Text('${stop?.name ?? "..."} (${stop?.code ?? "..."})')),
+        Expanded(
+          flex: 1,
+          child: StopRoutesWidget(
+              routeIds:
+                  stop!.routeWays.map((element) => element.routeId).toList()),
+        ),
+      ]),
+      trailing: SizedBox(
+          width: 10, child: isFavorite ? const Icon(Icons.star) : Container()),
+    );
+  }
+}
+
+class StopRoutesWidget extends StatelessWidget {
+  final List<String> routeIds;
+
+  const StopRoutesWidget({Key? key, required this.routeIds}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    List<String> routeNames = routeIds.map((element) {
+      return element;
+    }).toList();
+    return Text(routeNames.take(4).join(" "));
   }
 }

@@ -28,22 +28,27 @@ class FavoritesScreenBody extends StatelessWidget {
           child: Text("You don't have any favorite stops yet."));
     } else {
       return ListView.builder(
-          itemCount: favoriteStopIds.length,
-          itemBuilder: (BuildContext context, int index) => StopListTile(
-              stop: Provider.of<StopsProvider>(context)
-                  .getStop(favoriteStopIds[index])));
+        itemCount: favoriteStopIds.length,
+        itemBuilder: favoriteStopListItemBuilder,
+      );
     }
   }
 }
 
-class StopListTile extends StatelessWidget {
-  final Stop? stop;
-  const StopListTile({Key? key, required this.stop}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(stop?.name ?? "..."),
-    );
-  }
+Widget favoriteStopListItemBuilder(BuildContext context, int index) {
+  List<String> favoriteStopIds =
+      Provider.of<FavoriteStopIdsProvider>(context).favortiteStopIds;
+  Stop? stop =
+      Provider.of<StopsProvider>(context).getStop(favoriteStopIds[index]);
+  return InkWell(
+    child: StopListTile(
+      stop: stop,
+    ),
+    onTap: () {
+      Navigator.pushNamed(
+        context,
+        "/stop/${stop?.id ?? ""}",
+      );
+    },
+  );
 }

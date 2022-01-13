@@ -53,22 +53,20 @@ class ArrivalsScreenBody extends StatelessWidget {
               if (stop == null) {
                 return Container();
               }
-              return ListTile(
-                leading: const Icon(Icons.commute),
-                title: Text('${stop["name"]} (${stop["code"]})'),
+              return StopListTile(
+                stop: Stop.fromJson(stop),
+                isFavorite: Provider.of<FavoriteStopIdsProvider>(context)
+                    .contains(stop["id"]),
               );
             },
             popupItemBuilder: (BuildContext context, dynamic stop, _) {
               if (stop == null) {
                 return Container();
               }
-              return ListTile(
-                leading: const Icon(Icons.commute),
-                title: Text('${stop["name"]} (${stop["code"]})'),
-                trailing: Provider.of<FavoriteStopIdsProvider>(context)
-                        .contains(stop["id"])
-                    ? const Icon(Icons.star)
-                    : null,
+              return StopListTile(
+                stop: Stop.fromJson(stop),
+                isFavorite: Provider.of<FavoriteStopIdsProvider>(context)
+                    .contains(stop["id"]),
               );
             },
             isFilteredOnline: true,
