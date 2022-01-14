@@ -1,3 +1,9 @@
+## 1.1.2 (2022-01-14)
+
+### Fix
+
+- **main**: ensure initialized before accessing preferences
+
 ## 1.1.1 (2022-01-14)
 
 ### Fix
