@@ -62,7 +62,18 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">void main() =&gt; runApp(const MyApp());</code></pre>
+  <pre class="language-dart"><code class="language-dart">void main() async {
+  configureApp();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String cityName = sharedPreferences.getString(&quot;city_name&quot;) ?? &quot;madrid&quot;;
+  BaseCacheManager cacheManager = DefaultCacheManager();
+
+  runApp(MyApp(
+    cityName: cityName,
+    cacheManager: cacheManager,
+    sharedPreferences: sharedPreferences,
+  ));
+}</code></pre>
 </section>
 
 
@@ -108,7 +119,7 @@
 <footer>
   <span class="no-break">
     now8
-      1.0.0
+      1.1.1
   </span>
 
   

@@ -107,96 +107,81 @@ and</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  return FutureBuilder(
-      future: stops(
-          Provider.of&lt;CurrentCityProvider&gt;(context)
-              .city
-              .toString()
-              .split(&#39;.&#39;)
-              .last,
-          cacheManager),
-      builder: (BuildContext context, AsyncSnapshot&lt;dynamic&gt; snapshot) {
-        if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          List&lt;dynamic&gt; stops = [];
-          snapshot.data.forEach((key, value) =&gt; stops.add(value));
-          return Column(children: [
-            Padding(
-                padding: const EdgeInsets.only(top: 20, left: 20),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      &quot;Stop:&quot;,
-                      style: Theme.of(context).textTheme.headline6,
-                    ))),
-            Container(
-              padding: const EdgeInsets.all(20.0),
-              child: DropdownSearch&lt;dynamic&gt;(
-                  mode: Mode.BOTTOM_SHEET,
-                  dropdownSearchDecoration: InputDecoration(
-                    hintText: &quot;Select a stop...&quot;,
-                    hintStyle: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  showSearchBox: true,
-                  dropdownBuilder: (BuildContext context, dynamic stop) {
-                    if (stop == null) {
-                      return Container();
-                    }
-                    return ListTile(
-                      leading: const Icon(Icons.commute),
-                      title: Text(stop[&quot;name&quot;]),
-                      trailing: Text(stop[&quot;code&quot;]),
-                    );
-                  },
-                  popupItemBuilder: (BuildContext context, dynamic stop, _) {
-                    if (stop == null) {
-                      return Container();
-                    }
-                    return ListTile(
-                      leading: const Icon(Icons.commute),
-                      title: Text(stop[&quot;name&quot;]),
-                      trailing: Text(stop[&quot;code&quot;]),
-                    );
-                  },
-                  isFilteredOnline: true,
-                  onFind: (String? filter) async {
-                    final fuzzyStops = Fuzzy(stops,
-                        options: FuzzyOptions(
-                            threshold: 0.4,
-                            findAllMatches: true,
-                            shouldNormalize: true,
-                            shouldSort: true,
-                            tokenize: false,
-                            keys: [
-                              WeightedKey(
-                                  name: &quot;code&quot;,
-                                  getter: (dynamic stop) =&gt; stop[&quot;code&quot;],
-                                  weight: 10),
-                              WeightedKey(
-                                  name: &quot;name&quot;,
-                                  getter: (dynamic stop) =&gt; stop[&quot;name&quot;],
-                                  weight: 1)
-                            ]));
-                    final List&lt;dynamic&gt; filteredStopsFuzzy =
-                        fuzzyStops.search(filter ?? &#39;&#39;);
+  List&lt;dynamic&gt;? stops = Provider.of&lt;StopsProvider&gt;(context).stops;
+  if (stops == null) {
+    return const Center(child: CircularProgressIndicator());
+  }
+  return Column(children: [
+    Padding(
+        padding: const EdgeInsets.only(top: 20, left: 20),
+        child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              &quot;Stop:&quot;,
+              style: Theme.of(context).textTheme.headline6,
+            ))),
+    Container(
+      padding: const EdgeInsets.all(20.0),
+      child: DropdownSearch&lt;dynamic&gt;(
+          mode: Mode.BOTTOM_SHEET,
+          dropdownSearchDecoration: InputDecoration(
+            hintText: &quot;Select a stop...&quot;,
+            hintStyle: Theme.of(context).textTheme.bodyText1,
+          ),
+          showSearchBox: true,
+          dropdownBuilder: (BuildContext context, dynamic stop) {
+            if (stop == null) {
+              return Container();
+            }
+            return StopListTile(
+              stop: Stop.fromJson(stop),
+              isFavorite: Provider.of&lt;FavoriteStopIdsProvider&gt;(context)
+                  .contains(stop[&quot;id&quot;]),
+            );
+          },
+          popupItemBuilder: (BuildContext context, dynamic stop, _) {
+            if (stop == null) {
+              return Container();
+            }
+            return StopListTile(
+              stop: Stop.fromJson(stop),
+              isFavorite: Provider.of&lt;FavoriteStopIdsProvider&gt;(context)
+                  .contains(stop[&quot;id&quot;]),
+            );
+          },
+          isFilteredOnline: true,
+          onFind: (String? filter) async {
+            final fuzzyStops = Fuzzy(stops,
+                options: FuzzyOptions(
+                    threshold: 0.4,
+                    findAllMatches: true,
+                    shouldNormalize: true,
+                    shouldSort: true,
+                    tokenize: false,
+                    keys: [
+                      WeightedKey(
+                          name: &quot;code&quot;,
+                          getter: (dynamic stop) =&gt; stop[&quot;code&quot;],
+                          weight: 10),
+                      WeightedKey(
+                          name: &quot;name&quot;,
+                          getter: (dynamic stop) =&gt; stop[&quot;name&quot;],
+                          weight: 1)
+                    ]));
+            final List&lt;dynamic&gt; filteredStopsFuzzy =
+                fuzzyStops.search(filter ?? &#39;&#39;);
 
-                    return Future.value(
-                        filteredStopsFuzzy.map((r) =&gt; r.item).toList());
-                  },
-                  onChanged: (dynamic stop) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =&gt;
-                            ArrivalsScreenStop(stop: Stop.fromJson(stop)),
-                      ),
-                    );
-                  }),
-            )
-          ]);
-        }
-      });
+            return Future.value(
+                filteredStopsFuzzy.map((r) =&gt; r.item).toList());
+          },
+          onChanged: (dynamic stop) {
+            Navigator.pushNamed(
+              context,
+              &quot;&#47;stop&#47;${stop[&#39;id&#39;]}&quot;,
+            );
+          }),
+    )
+  ]);
 }</code></pre>
 </section>
 
@@ -262,7 +247,7 @@ Widget build(BuildContext context) {
 <footer>
   <span class="no-break">
     now8
-      1.0.0
+      1.1.1
   </span>
 
   
