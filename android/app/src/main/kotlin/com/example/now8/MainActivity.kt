@@ -1,4 +1,4 @@
-package com.example.now8
+package systems.now8.app
 
 import io.flutter.embedding.android.FlutterActivity
 
