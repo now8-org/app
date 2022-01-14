@@ -119,8 +119,8 @@ class Estimation {
   });
 
   Estimation.fromJson(Map json) {
-    estimation = DateTime.parse(json['estimation']);
-    time = DateTime.parse(json['time']);
+    estimation = DateTime.parse(json['estimation']).toLocal();
+    time = DateTime.parse(json['time']).toLocal();
   }
 }
 
