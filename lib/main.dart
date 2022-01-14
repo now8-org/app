@@ -1,19 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:now8/providers.dart';
 import 'package:now8/screens/arrivals.dart';
-import 'package:now8/screens/welcome.dart';
+import 'package:now8/screens/favorites.dart';
+import 'package:now8/screens/home.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:now8/screens/stop.dart';
+import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
+import 'dart:developer';
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final String cityName;
+  final BaseCacheManager cacheManager;
+  final SharedPreferences sharedPreferences;
+
+  const MyApp(
+      {Key? key,
+      required this.cityName,
+      required this.cacheManager,
+      required this.sharedPreferences})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => CurrentCityProvider()),
+          ChangeNotifierProvider(
+              create: (_) => CurrentCityProvider(cityName, sharedPreferences)),
+          ChangeNotifierProxyProvider<CurrentCityProvider, StopsProvider>(
+              create: (_) => StopsProvider(cacheManager),
+              update: (_, currentCityProvider, stopsProvider) =>
+                  stopsProvider!..update(currentCityProvider)),
+          ChangeNotifierProvider(
+              create: (_) => FavoriteStopIdsProvider(
+                  sharedPreferences: sharedPreferences)),
+          ChangeNotifierProxyProvider<CurrentCityProvider, RoutesProvider>(
+              create: (_) => RoutesProvider(cacheManager),
+              update: (_, currentCityProvider, routesProvider) =>
+                  routesProvider!..update(currentCityProvider)),
         ],
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: "now8: public transport arrival times",
           // https://material.io/resources/color/#!/?view.left=0&view.right=1&primary.color=104068&secondary.color=baddf9&primary.text.color=ffffff
           theme: ThemeData(
@@ -36,12 +64,60 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Roboto',
           ),
           initialRoute: '/',
-          routes: {
-            '/': (context) => const WelcomeScreen(),
-            '/arrivals': (context) => const ArrivalsScreen(),
+          onGenerateRoute: (settings) {
+            List<String> pathComponents = settings.name!.split('/');
+            switch (pathComponents[1]) {
+              case "arrivals":
+                {
+                  return MaterialPageRoute(
+                    builder: (context) => const ArrivalsScreen(),
+                    settings: RouteSettings(name: settings.name),
+                  );
+                }
+              case "favorites":
+                {
+                  return MaterialPageRoute(
+                    builder: (context) => const FavoritesScreen(),
+                    settings: RouteSettings(name: settings.name),
+                  );
+                }
+              case "stop":
+                {
+                  if (pathComponents.length > 2 &&
+                      pathComponents[2].isNotEmpty) {
+                    return MaterialPageRoute(
+                      builder: (context) =>
+                          StopScreen(stopId: pathComponents[2]),
+                      settings: RouteSettings(name: settings.name),
+                    );
+                  }
+                  break;
+                }
+              default:
+                {
+                  if (pathComponents[1] != "") {
+                    log("Invalid route ${settings.name}");
+                  }
+                  return MaterialPageRoute(
+                    builder: (context) => const HomeScreen(),
+                    settings: const RouteSettings(name: "/"),
+                  );
+                }
+            }
           },
         ));
   }
 }
 
-void main() => runApp(const MyApp());
+void main() async {
+  configureApp();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String cityName = sharedPreferences.getString("city_name") ?? "madrid";
+  BaseCacheManager cacheManager = DefaultCacheManager();
+
+  runApp(MyApp(
+    cityName: cityName,
+    cacheManager: cacheManager,
+    sharedPreferences: sharedPreferences,
+  ));
+}
