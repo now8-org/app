@@ -111,6 +111,7 @@ class MyApp extends StatelessWidget {
 
 void main() async {
   configureApp();
+  WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String cityName = sharedPreferences.getString("city_name") ?? "madrid";
   BaseCacheManager cacheManager = DefaultCacheManager();
