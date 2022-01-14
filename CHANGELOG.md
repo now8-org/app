@@ -1,3 +1,17 @@
+## 1.1.0 (2022-01-14)
+
+### Fix
+
+- **domain**: use date in local timezone
+
+### Feat
+
+- show route codes and colors in stops list
+- common StopListTile with routes and favorite status
+- add home and favorites to menu
+- named routes with arguments
+- basic favorites functionality
+
 ## 1.0.0 (2021-12-18)
 
 ### Feat
