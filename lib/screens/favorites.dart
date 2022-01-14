@@ -27,10 +27,12 @@ class FavoritesScreenBody extends StatelessWidget {
       return const Center(
           child: Text("You don't have any favorite stops yet."));
     } else {
-      return ListView.builder(
-        itemCount: favoriteStopIds.length,
-        itemBuilder: favoriteStopListItemBuilder,
-      );
+      return Container(
+          padding: const EdgeInsets.all(10.0),
+          child: ListView.builder(
+            itemCount: favoriteStopIds.length,
+            itemBuilder: favoriteStopListItemBuilder,
+          ));
     }
   }
 }
@@ -40,9 +42,15 @@ Widget favoriteStopListItemBuilder(BuildContext context, int index) {
       Provider.of<FavoriteStopIdsProvider>(context).favortiteStopIds;
   Stop? stop =
       Provider.of<StopsProvider>(context).getStop(favoriteStopIds[index]);
-  return InkWell(
-    child: StopListTile(
-      stop: stop,
+  return Card(
+      child: InkWell(
+    child: Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: (stop != null)
+          ? StopListTile(
+              stop: stop,
+            )
+          : Container(),
     ),
     onTap: () {
       Navigator.pushNamed(
@@ -50,5 +58,5 @@ Widget favoriteStopListItemBuilder(BuildContext context, int index) {
         "/stop/${stop?.id ?? ""}",
       );
     },
-  );
+  ));
 }

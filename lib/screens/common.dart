@@ -196,15 +196,25 @@ class StopListTile extends StatelessWidget {
 }
 
 class StopRoutesWidget extends StatelessWidget {
+  final int maxRoutes = 3;
   final List<String> routeIds;
 
   const StopRoutesWidget({Key? key, required this.routeIds}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<String> routeNames = routeIds.map((element) {
-      return element;
+    List<Route?> routes =
+        routeIds.toSet().toList().take(maxRoutes).map((element) {
+      return Provider.of<RoutesProvider>(context).getRoute(element);
     }).toList();
-    return Text(routeNames.take(4).join(" "));
+    return Wrap(spacing: 5, children: [
+      ...routes
+          .map((element) => Text(
+                element?.code ?? "...",
+                style: TextStyle(color: element?.color ?? Colors.black),
+              ))
+          .toList(),
+      if (routes.length == maxRoutes) const Text("...")
+    ]);
   }
 }

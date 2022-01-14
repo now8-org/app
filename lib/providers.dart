@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Route;
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:now8/domain.dart';
 import 'package:now8/data.dart' as data;
@@ -101,6 +101,44 @@ class FavoriteStopIdsProvider extends ChangeNotifier {
 
   void onChange() {
     _sharedPreferences.setStringList(_key, favortiteStopIds);
+    notifyListeners();
+  }
+}
+
+class RoutesProvider extends ChangeNotifier {
+  Map? _routes;
+  String? _cityName;
+  final BaseCacheManager _cacheManager;
+
+  RoutesProvider(this._cacheManager);
+
+  void update(CurrentCityProvider currentCityProvider) {
+    _cityName = currentCityProvider.cityName;
+    _fetch();
+  }
+
+  void _fetch() async {
+    _routes = _cityName == null
+        ? null
+        : Map.from(await data.routes(_cityName!, _cacheManager));
+    onChange();
+  }
+
+  List<dynamic>? get routes {
+    return _routes?.values.toList();
+  }
+
+  Route? getRoute(String routeId) {
+    if (_routes == null) {
+      return null;
+    }
+
+    return _routes!.containsKey(routeId)
+        ? Route.fromJson(_routes![routeId])
+        : null;
+  }
+
+  void onChange() {
     notifyListeners();
   }
 }

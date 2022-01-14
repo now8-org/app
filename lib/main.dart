@@ -35,6 +35,10 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
               create: (_) => FavoriteStopIdsProvider(
                   sharedPreferences: sharedPreferences)),
+          ChangeNotifierProxyProvider<CurrentCityProvider, RoutesProvider>(
+              create: (_) => RoutesProvider(cacheManager),
+              update: (_, currentCityProvider, routesProvider) =>
+                  routesProvider!..update(currentCityProvider)),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
