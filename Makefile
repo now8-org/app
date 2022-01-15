@@ -1,9 +1,6 @@
 SHELL=/bin/bash
 .DEFAULT_GOAL := default
 
-NPROCS = $(shell grep -c 'processor' /proc/cpuinfo)
-MAKEFLAGS += -j$(NPROCS)
-
 .PHONY: install
 install:
 	@echo "---------------------------"
