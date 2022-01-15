@@ -91,6 +91,7 @@ icons:
 	@echo "- Generate icons from icons/logo.svg -"
 	@echo "--------------------------------------"
 	inkscape -w 1024 -h 1024 icons/logo.svg -o icons/logo.png
+	inkscape -w 512 -h 512 icons/logo.svg -o icons/logo512.png
 	inkscape -w 1200 -h 1200 icons/logo.svg -o /tmp/1200.png
 	flutter pub run flutter_launcher_icons:main
 	inkscape -w 32 -h 32 icons/logo.svg -o web/favicon.png
@@ -98,6 +99,7 @@ icons:
 	convert icons/logo.png -resize 140x140 -gravity center -background "#104068" -extent 192x192 web/icons/Icon-maskable-192.png
 	inkscape -w 512 -h 512 icons/logo.svg -o web/icons/Icon-512.png
 	convert icons/logo.png -resize 400x400 -gravity center -background "#104068" -extent 512x512 web/icons/Icon-maskable-512.png
+	inkscape -w 1024 -h 500 icons/feature_graphic.svg -o icons/feature_graphic.png
 
 .PHONY: docs
 docs:
