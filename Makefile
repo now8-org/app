@@ -54,7 +54,7 @@ build-web:
 	@echo "-------------------------"
 	@echo "- Build web for release -"
 	@echo "-------------------------"
-	flutter build web --web-renderer html --release
+	flutter build web --release
 
 .PHONY: build-apk
 build-apk:
