@@ -1,3 +1,10 @@
+## 1.3.0 (2022-01-15)
+
+### Feat
+
+- add feature graphic and icon 512
+- add screenshots
+
 ## 1.2.0 (2022-01-15)
 
 ### Feat
