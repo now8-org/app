@@ -43,14 +43,6 @@ jobs:
         run: make test
 
       # Create release if in main branch
-      - name: commitizen
-        if: github.ref == 'refs/heads/main'
-        uses: commitizen-tools/commitizen-action@0.10.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          changelog_increment_filename: body.md
-          branch: main
-
       - name: Build
         if: github.ref == 'refs/heads/main'
         env:
@@ -60,6 +52,15 @@ jobs:
           KEY_PATH: ${{ secrets.KEY_PATH }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
         run: echo $KEY_JKS > key.jks && make build
+
+      - name: commitizen
+        if: github.ref == 'refs/heads/main'
+        uses: commitizen-tools/commitizen-action@0.10.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          changelog_increment_filename: body.md
+          branch: main
+
 
       - name: Create GitHub release
         if: github.ref == 'refs/heads/main'
