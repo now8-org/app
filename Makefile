@@ -63,8 +63,15 @@ build-apk:
 	@echo "-------------------------"
 	flutter build apk --release
 
+.PHONY: build-appbundle
+build-appbundle:
+	@echo "-------------------------------"
+	@echo "- Build appbundle for release -"
+	@echo "-------------------------------"
+	flutter build appbundle --release
+
 .PHONY: build
-build: build-web build-apk
+build: build-web build-apk build-appbundle
 
 .PHONY: pull
 pull:
