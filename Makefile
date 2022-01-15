@@ -63,6 +63,13 @@ build-apk:
 	@echo "-------------------------"
 	flutter build apk --release
 
+.PHONY: build-apk-split
+build-apk-split:
+	@echo "-----------------------------------------"
+	@echo "- Build apk for release (split per abi) -"
+	@echo "-----------------------------------------"
+	flutter build apk --release --split-per-abi
+
 .PHONY: build-appbundle
 build-appbundle:
 	@echo "-------------------------------"
@@ -71,7 +78,7 @@ build-appbundle:
 	flutter build appbundle --release
 
 .PHONY: build
-build: build-web build-apk build-appbundle
+build: build-web build-apk build-apk-split build-appbundle
 
 .PHONY: pull
 pull:
