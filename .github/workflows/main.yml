@@ -51,7 +51,7 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PATH: ${{ secrets.KEY_PATH }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-        run: echo $KEY_JKS > key.jks && make build
+        run: echo $KEY_JKS | base64 -d > key.jks && make build
 
       - name: commitizen
         if: github.ref == 'refs/heads/main'
