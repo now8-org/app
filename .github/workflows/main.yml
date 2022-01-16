@@ -57,11 +57,10 @@ jobs:
 
       - name: commitizen
         if: github.ref == 'refs/heads/main'
-        uses: commitizen-tools/commitizen-action@0.10.0
+        uses: commitizen-tools/commitizen-action@0.11.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           changelog_increment_filename: body.md
-          branch: main
 
 
       - name: Create GitHub release
