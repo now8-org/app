@@ -96,7 +96,6 @@ jobs:
       - name: Build appbundle
         if: github.ref == 'refs/heads/main'
         env:
-          KEY_JKS: ${{ secrets.UPLOAD_KEY_JKS }}
           KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
           KEY_PATH: ${{ secrets.UPLOAD_KEY_PATH }}
