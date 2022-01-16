@@ -61,6 +61,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           changelog_increment_filename: body.md
+          branch: main
 
 
       - name: Create GitHub release
