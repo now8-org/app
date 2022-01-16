@@ -53,7 +53,7 @@ jobs:
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
         run: |
           echo $KEY_JKS | base64 -d > key.jks
-          make build-apk 
+          make build-apk
           make build-apk-split
 
       - name: commitizen
