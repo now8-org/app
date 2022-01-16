@@ -46,13 +46,12 @@ jobs:
       - name: Build
         if: github.ref == 'refs/heads/main'
         env:
-          KEY_JKS: ${{ secrets.KEY_JKS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PATH: ${{ secrets.KEY_PATH }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
         run: |
-          echo $KEY_JKS | base64 -d > key.jks
+          echo ${{ secrets.KEY_JKS }} | base64 -d > key.jks
           make build-apk
           make build-apk-split
 
@@ -92,6 +91,27 @@ jobs:
           rsync -Pavh --delete \
           ./build/web/ \
           ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST}}:/var/www/now8/
+
+      # Deploy appbundle to Google Play
+      - name: Build appbundle
+        if: github.ref == 'refs/heads/main'
+        env:
+          KEY_JKS: ${{ secrets.UPLOAD_KEY_JKS }}
+          KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+          KEY_PATH: ${{ secrets.UPLOAD_KEY_PATH }}
+          STORE_PASSWORD: ${{ secrets.UPLOAD_STORE_PASSWORD }}
+        run: |
+          echo ${{ secrets.UPLOAD_KEY_JKS }} | base64 -d > key.jks
+          make build-appbundle
+
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ SERVICE_ACCOUNT_JSON }}
+          packageName: systems.now8.app
+          releaseFile: build/app/outputs/bundle/release/app-release.aab
+          track: production
 
       # Deploy docs
       - name: Build docs
