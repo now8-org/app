@@ -51,7 +51,10 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PATH: ${{ secrets.KEY_PATH }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-        run: echo $KEY_JKS | base64 -d > key.jks && make build
+        run: |
+          echo $KEY_JKS | base64 -d > key.jks
+          make build-apk 
+          make build-apk-split
 
       - name: commitizen
         if: github.ref == 'refs/heads/main'
@@ -68,11 +71,14 @@ jobs:
         with:
           files: |
             build/app/outputs/flutter-apk/*
-            build/app/outputs/bundle/release/app-release.aab
           body_path: body.md
           tag_name: ${{ env.REVISION }}
 
       # Deploy web
+      - name: Build web
+        if: github.ref == 'refs/heads/main'
+        run: make build-web
+
       - name: Install SSH Key
         if: github.ref == 'refs/heads/main'
         uses: shimataro/ssh-key-action@v2
