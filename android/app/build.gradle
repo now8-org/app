@@ -11,15 +11,16 @@ if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+    flutterVersionName = '1.0.0'
 }
+
+def semanticVersion = flutterVersionName.split('\\+')
+def versionCore = semanticVersion[0]
+def build = semanticVersion.length >= 2 ? semanticVersion[1].toInteger() : 0
+def (major, minor, patch) = versionCore.tokenize('.').collect{it.toInteger()}
+def flutterVersionCode = 1000000 * major + 10000 * minor + 100 * patch + build
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
