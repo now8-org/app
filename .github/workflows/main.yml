@@ -56,16 +56,17 @@ jobs:
           make build-apk-split
 
       - name: commitizen
+        id: commitizen
         if: github.ref == 'refs/heads/main'
+        continue-on-error: true
         uses: commitizen-tools/commitizen-action@0.11.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           changelog_increment_filename: body.md
           branch: main
 
-
       - name: Create GitHub release
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && steps.commitizen.outcome == 'success'
         uses: softprops/action-gh-release@v1
         with:
           files: |
@@ -75,18 +76,18 @@ jobs:
 
       # Deploy web
       - name: Build web
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && steps.commitizen.outcome == 'success'
         run: make build-web
 
       - name: Install SSH Key
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && steps.commitizen.outcome == 'success'
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
 
       - name: Deploy with rsync
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && steps.commitizen.outcome == 'success'
         run: |-
           rsync -Pavh --delete \
           ./build/web/ \
@@ -94,7 +95,7 @@ jobs:
 
       # Deploy appbundle to Google Play
       - name: Build appbundle
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && steps.commitizen.outcome == 'success'
         env:
           KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
@@ -105,6 +106,7 @@ jobs:
           make build-appbundle
 
       - name: Upload to Google Play
+        if: github.ref == 'refs/heads/main' && steps.commitizen.outcome == 'success'
         uses: r0adkll/upload-google-play@v1.0.15
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
@@ -114,11 +116,11 @@ jobs:
 
       # Deploy docs
       - name: Build docs
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && steps.commitizen.outcome == 'success'
         run: make docs
 
       - name: Deploy docs
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && steps.commitizen.outcome == 'success'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
