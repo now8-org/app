@@ -105,14 +105,15 @@ jobs:
           echo ${{ secrets.UPLOAD_KEY_JKS }} | base64 -d > key.jks
           make build-appbundle
 
+      - name: Prepare Google Play key file
+        if: github.ref == 'refs/heads/main' && steps.commitizen.outcome == 'success'
+        run: |
+          mkdir android/keys
+          echo ${{ secrets.SERVICE_ACCOUNT_JSON_BASE64 }} | base64 -d > android/keys/key.json
+
       - name: Upload to Google Play
         if: github.ref == 'refs/heads/main' && steps.commitizen.outcome == 'success'
-        uses: r0adkll/upload-google-play@v1.0.15
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: systems.now8.app
-          releaseFiles: build/app/outputs/bundle/release/app-release.aab
-          track: production
+        run: fastlane android prod
 
       # Deploy docs
       - name: Build docs
