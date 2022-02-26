@@ -4,7 +4,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:now8/domain.dart';
 
-const String apiBaseUrl = 'https://api.now8.systems/';
+const String apiBaseUrl = 'https://api.now8.systems';
 const String apiVersion = 'v5';
 
 /// Get a map of stop ids to stop info maps..
