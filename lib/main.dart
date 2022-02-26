@@ -51,9 +51,7 @@ class MyApp extends StatelessWidget {
             primaryColor: const Color(0xff104068),
             colorScheme: const ColorScheme(
                 primary: Color(0xff104068),
-                primaryVariant: Color(0xff001a3d),
                 secondary: Color(0xffbbdefb),
-                secondaryVariant: Color(0xff8aacc8),
                 surface: Color(0xffe1e2e1),
                 background: Color(0xfff5f5f6),
                 error: Color(0xffff0000),
@@ -107,6 +105,7 @@ class MyApp extends StatelessWidget {
                   );
                 }
             }
+            return null;
           },
           localizationsDelegates: const [
             AppLocalizations.delegate,
