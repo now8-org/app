@@ -16,11 +16,21 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0.0'
 }
 
-def semanticVersion = flutterVersionName.split('\\+')
-def versionCore = semanticVersion[0]
-def build = semanticVersion.length >= 2 ? semanticVersion[1].toInteger() : 0
-def (major, minor, patch) = versionCore.tokenize('.').collect{it.toInteger()}
-def flutterVersionCode = 1000000 * major + 10000 * minor + 100 * patch + build
+//def semanticVersion = flutterVersionName.split('\\+')
+//def versionCore = semanticVersion[0]
+//def build = semanticVersion.length >= 2 ? semanticVersion[1].toInteger() : 0
+//def (major, minor, patch) = versionCore.tokenize('.').collect{it.toInteger()}
+//def flutterVersionCode = 1000000 * major + 10000 * minor + 100 * patch + build
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
