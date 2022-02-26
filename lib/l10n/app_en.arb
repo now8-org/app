@@ -1,0 +1,42 @@
+{
+    "titleLong": "now8: public transport arrival times",
+    "@titleLong": {
+      "description": "App name and phrase."
+    },
+    "welcomeToAppName": "Welcome to now8!",
+    "@welcomeToAppName": {
+      "description": "Welcome to the app message."
+    },
+    "appSummary": "now8 (no wait) is a public transport app that provides improved vehicle arrival time estimations using Machine Learning.",
+    "@appSummary": {
+      "description": "App summary paragraph."
+    },
+    "features": "Features",
+    "@features": {
+      "description": "Just the word 'Features'."
+    },
+    "featureList": "• Support for Madrid (Spain).\n• Fuzzy search for stop names and codes.",
+    "@featureList": {
+      "description": "Paragraph with the list of features."
+    },
+    "menuHome": "Home",
+    "@menuHome": {
+      "description": "Tile title in the menu."
+    },
+    "menuFavorites": "Favorites",
+    "@menuFavorites": {
+      "description": "Tile title in the menu."
+    },
+    "menuArrivals": "Arrivals",
+    "@menuArrivals": {
+      "description": "Tile title in the menu."
+    },
+    "noFavoritesYet": "You don't have any favorite stops yet.",
+    "@noFavoritesYet": {
+      "description": "Message displayed if there aren't any favorite stops."
+    },
+    "stop": "Stop",
+    "@stop": {
+      "description": "Just the word 'Stop'."
+    }
+}

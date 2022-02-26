@@ -7,6 +7,7 @@ import 'package:now8/screens/common.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final cacheManager = DefaultCacheManager();
 
@@ -15,8 +16,8 @@ class ArrivalsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenTemplate(
-      body: const ArrivalsScreenBody(),
+    return const ScreenTemplate(
+      body: ArrivalsScreenBody(),
       appBarTitle: "Arrivals",
     );
   }
@@ -37,7 +38,7 @@ class ArrivalsScreenBody extends StatelessWidget {
           child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Stop:",
+                AppLocalizations.of(context)!.stop + ":",
                 style: Theme.of(context).textTheme.headline6,
               ))),
       Container(

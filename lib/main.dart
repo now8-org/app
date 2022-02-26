@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:now8/screens/stop.dart';
 import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:developer';
 
 class MyApp extends StatelessWidget {
@@ -42,7 +44,8 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: "now8: public transport arrival times",
+
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.titleLong,
           // https://material.io/resources/color/#!/?view.left=0&view.right=1&primary.color=104068&secondary.color=baddf9&primary.text.color=ffffff
           theme: ThemeData(
             primaryColor: const Color(0xff104068),
@@ -105,6 +108,16 @@ class MyApp extends StatelessWidget {
                 }
             }
           },
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', ''),
+            Locale('es', ''),
+          ],
         ));
   }
 }

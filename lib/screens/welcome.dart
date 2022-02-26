@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:now8/screens/common.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WelcomeScreenBody extends StatelessWidget {
   const WelcomeScreenBody({Key? key}) : super(key: key);
@@ -9,15 +10,13 @@ class WelcomeScreenBody extends StatelessWidget {
     return Container(
         padding: const EdgeInsets.all(40.0),
         child: ListView(children: [
-          SelectableText("Welcome to now8!",
+          SelectableText(AppLocalizations.of(context)!.welcomeToAppName,
               style: Theme.of(context).textTheme.headline4,
               textAlign: TextAlign.center),
           Container(
               margin: const EdgeInsets.only(top: 40),
               child: SelectableText(
-                "now8 (no wait) is a public transport app that provides "
-                "improved vehicle arrival time estimations "
-                "using Machine Learning.",
+                AppLocalizations.of(context)!.appSummary,
                 style: Theme.of(context).textTheme.bodyText1,
               )),
           Card(
@@ -28,14 +27,13 @@ class WelcomeScreenBody extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SelectableText(
-                          "Features",
+                          AppLocalizations.of(context)!.features,
                           style: Theme.of(context).textTheme.headline5,
                         ),
                         Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: SelectableText(
-                              "• Support for Madrid (Spain).\n"
-                              "• Fuzzy search for stop names and codes.\n",
+                              AppLocalizations.of(context)!.featureList,
                               style: Theme.of(context).textTheme.bodyText1,
                             ))
                       ]))),
@@ -48,8 +46,8 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenTemplate(
-      body: const WelcomeScreenBody(),
+    return const ScreenTemplate(
+      body: WelcomeScreenBody(),
       appBarTitle: "now8",
     );
   }

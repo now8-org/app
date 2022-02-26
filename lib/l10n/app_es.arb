@@ -1,0 +1,12 @@
+{
+    "titleLong": "now8: tiempos de llegada de transporte público",
+    "welcomeToAppName": "¡Bienvenid@ a now8!",
+    "appSummary": "now8 (no wait) es una aplicación de transporte público que proporciona estimaciones de timepo de llegada mejoradas utilizando inteligencia artificial.",
+    "features": "Funcionalidades",
+    "featureList": "• Ciudades soportadas: Madrid (España).\n• Fuzzy search de paradas.",
+    "menuHome": "Inicio",
+    "menuFavorites": "Favoritos",
+    "menuArrivals": "Llegadas",
+    "noFavoritesYet": "Aún no tienes paradas favoritas.",
+    "stop": "Parada"
+}

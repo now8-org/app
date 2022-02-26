@@ -4,6 +4,7 @@ import 'package:now8/providers.dart';
 import 'package:provider/provider.dart';
 import 'package:recase/recase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CityDropdown extends StatelessWidget {
   const CityDropdown({Key? key}) : super(key: key);
@@ -32,9 +33,9 @@ class ScreenTemplate extends StatelessWidget {
   final List<Widget>? actions;
   final bool showDrawer;
 
-  final Widget drawer = DefaultDrawer();
+  final Widget drawer = const DefaultDrawer();
 
-  ScreenTemplate(
+  const ScreenTemplate(
       {Key? key,
       required this.body,
       required this.appBarTitle,
@@ -66,17 +67,25 @@ class RouteInfo {
 }
 
 class DefaultDrawer extends StatelessWidget {
-  final List<RouteInfo> routeInfos = [
-    RouteInfo(title: "Home", route: "/", iconData: Icons.home),
-    RouteInfo(title: "Favorites", route: "/favorites", iconData: Icons.stars),
-    RouteInfo(
-        title: "Arrivals", route: "/arrivals", iconData: Icons.departure_board)
-  ];
-
-  DefaultDrawer({Key? key}) : super(key: key);
+  const DefaultDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final List<RouteInfo> routeInfos = [
+      RouteInfo(
+          title: AppLocalizations.of(context)!.menuHome,
+          route: "/",
+          iconData: Icons.home),
+      RouteInfo(
+          title: AppLocalizations.of(context)!.menuFavorites,
+          route: "/favorites",
+          iconData: Icons.stars),
+      RouteInfo(
+          title: AppLocalizations.of(context)!.menuArrivals,
+          route: "/arrivals",
+          iconData: Icons.departure_board)
+    ];
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,

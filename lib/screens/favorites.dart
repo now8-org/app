@@ -9,8 +9,8 @@ class FavoritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenTemplate(
-      body: const FavoritesScreenBody(),
+    return const ScreenTemplate(
+      body: FavoritesScreenBody(),
       appBarTitle: "Favorites",
     );
   }

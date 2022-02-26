@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_web_plugins:
     sdk: flutter
   recase: ^4.0.0
@@ -34,6 +36,7 @@ flutter:
     - family: Roboto
       fonts:
         - asset: fonts/Roboto-Regular.ttf
+  generate: true # for internationalization
 
 flutter_icons:
   image_path: icons/logo.png
