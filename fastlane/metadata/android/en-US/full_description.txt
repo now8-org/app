@@ -1,0 +1,9 @@
+now8 (no wait) is a public transport app that provides improved vehicle arrival time estimations using Machine Learning.
+
+Features:
+    • Support for Madrid (Spain).
+    • Fuzzy search for stop names and codes. Even if you skip some characters or mistype them the expected result will still appear.
+
+The app collects past arrival times to make better estimations. Aren't you tired of that bus that always comes 5 minutes later than it says? now8 is here to fix that.
+
+This is an open source project, check https://github.com/now8-org for bug reports or code contributions.
