@@ -1,3 +1,15 @@
+## 1.4.0 (2022-02-26)
+
+### Fix
+
+- **build.gradle**: bump kotlin version
+- **build.gradle**: lower min SDK version to its previous value
+- **build.gradle**: update min SDK version to 31
+
+### Feat
+
+- add translation to Spanish
+
 ## 1.3.0 (2022-01-15)
 
 ### Feat
