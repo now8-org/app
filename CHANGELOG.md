@@ -1,3 +1,9 @@
+## 1.4.1 (2022-02-26)
+
+### Fix
+
+- **data**: remove extra slash in API URL
+
 ## 1.4.0 (2022-02-26)
 
 ### Fix
