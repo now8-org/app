@@ -1,3 +1,9 @@
+## 1.5.0 (2022-02-27)
+
+### Feat
+
+- **translation**: translate appBarTitle
+
 ## 1.4.1 (2022-02-26)
 
 ### Fix
