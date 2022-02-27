@@ -1,4 +1,8 @@
 {
+    "titleShort": "now8",
+    "@titleShort": {
+      "description": "App name."
+    },
     "titleLong": "now8: public transport arrival times",
     "@titleLong": {
       "description": "App name and phrase."

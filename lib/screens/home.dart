@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:now8/screens/common.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:now8/screens/welcome.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,7 +16,9 @@ class HomeScreen extends StatelessWidget {
           if (snapshot.hasData) {
             return const WelcomeScreen();
           } else {
-            return ScreenTemplate(body: Container(), appBarTitle: "now8");
+            return ScreenTemplate(
+                body: Container(),
+                appBarTitle: AppLocalizations.of(context)!.titleShort);
           }
         });
   }

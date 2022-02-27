@@ -3,15 +3,16 @@ import 'package:now8/providers.dart';
 import 'package:now8/screens/common.dart';
 import 'package:provider/provider.dart';
 import 'package:now8/domain.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const ScreenTemplate(
-      body: FavoritesScreenBody(),
-      appBarTitle: "Favorites",
+    return ScreenTemplate(
+      body: const FavoritesScreenBody(),
+      appBarTitle: AppLocalizations.of(context)!.menuFavorites,
     );
   }
 }

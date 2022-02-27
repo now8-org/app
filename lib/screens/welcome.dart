@@ -46,9 +46,9 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ScreenTemplate(
-      body: WelcomeScreenBody(),
-      appBarTitle: "now8",
+    return ScreenTemplate(
+      body: const WelcomeScreenBody(),
+      appBarTitle: AppLocalizations.of(context)!.titleShort,
     );
   }
 }
