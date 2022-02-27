@@ -114,3 +114,22 @@ docs:
 	@echo "- Generate docs -"
 	@echo "-----------------"
 	flutter pub global run dartdoc:dartdoc
+
+.PHONY: release
+release:
+	@echo "--------------------------"
+	@echo "- Generate a new release -"
+	@echo "--------------------------"
+	cz bump --changelog --changelog-to-stdout
+	@echo "Update the build number in `pubspec.yaml`."
+	@echo "Translate the previous languages for all supported languages and then run `make publish`."
+
+.PHONY: publish
+publish:
+	@echo "-------------------------"
+	@echo "- Publish to Play Store -"
+	@echo "-------------------------"
+	fastlane android prod
+
+.PHONY: build-and-publish
+build-and-publish: build-appbundle publish
