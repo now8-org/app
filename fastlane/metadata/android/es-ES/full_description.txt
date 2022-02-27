@@ -1,0 +1,9 @@
+now8 (no wait) es una aplicación de transporte público que proporciona estimaciones de timepo de llegada mejoradas utilizando inteligencia artificial.
+
+Funcionalidades:
+    • Ciudades soportadas: Madrid (España).
+    • Fuzzy search de paradas.
+
+La aplicación recopila las horas de paso de otros días para hacer mejores estimaciones. ¿No estás cansado de ese autobús que siempre llega 5 minutos más tarde de lo que dice la app? now8 está aquí para solucionarlo.
+
+Es un proyecto de software libre, consulta https://github.com/now8-org para reportar de errores o contribuir al código.
