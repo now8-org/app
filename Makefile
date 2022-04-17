@@ -121,8 +121,8 @@ release:
 	@echo "- Generate a new release -"
 	@echo "--------------------------"
 	cz bump --changelog --changelog-to-stdout
-	@echo "Update the build number in `pubspec.yaml`."
-	@echo "Write the previous changelog for all supported languages and then run `make publish`."
+	@echo "Update the build number in pubspec.yaml."
+	@echo "Write the previous changelog for all supported languages and then run make publish."
 
 .PHONY: publish
 publish:
