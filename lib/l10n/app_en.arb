@@ -35,6 +35,10 @@
     "@menuArrivals": {
       "description": "Tile title in the menu."
     },
+    "menuMap": "Map",
+    "@menuMap": {
+      "description": "Tile title in the menu."
+    },
     "noFavoritesYet": "You don't have any favorite stops yet.",
     "@noFavoritesYet": {
       "description": "Message displayed if there aren't any favorite stops."

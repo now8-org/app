@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:now8/providers.dart';
 import 'package:now8/screens/arrivals.dart';
 import 'package:now8/screens/favorites.dart';
+import 'package:now8/screens/map.dart';
 import 'package:now8/screens/home.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -93,6 +94,13 @@ class MyApp extends StatelessWidget {
                     );
                   }
                   break;
+                }
+              case "map":
+                {
+                  return MaterialPageRoute(
+                    builder: (context) => const MapScreen(),
+                    settings: RouteSettings(name: settings.name),
+                  );
                 }
               default:
                 {

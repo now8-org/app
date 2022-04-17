@@ -83,7 +83,11 @@ class DefaultDrawer extends StatelessWidget {
       RouteInfo(
           title: AppLocalizations.of(context)!.menuArrivals,
           route: "/arrivals",
-          iconData: Icons.departure_board)
+          iconData: Icons.departure_board),
+      RouteInfo(
+          title: AppLocalizations.of(context)!.menuMap,
+          route: "/map",
+          iconData: Icons.map),
     ];
 
     return Drawer(

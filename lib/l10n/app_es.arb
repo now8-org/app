@@ -8,6 +8,7 @@
     "menuHome": "Inicio",
     "menuFavorites": "Favoritos",
     "menuArrivals": "Llegadas",
+    "menuMap": "Mapa",
     "noFavoritesYet": "Aún no tienes paradas favoritas.",
     "stop": "Parada"
 }
