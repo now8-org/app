@@ -9,7 +9,14 @@ The web version is available at <https://now8.systems>.
 
 ## Download
 
-You can download the latest version for Android devices from the
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/systems.now8.app/)
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+     alt="Get it on Google Play"
+     height="80">](https://play.google.com/store/apps/details?id=systems.now8.app)
+
+You can also download the latest version for Android devices from the
 [releases page](https://github.com/now8-org/app/releases).
 
 ## Documentation
